@@ -41,12 +41,3 @@ class ListItemOrderUpdate(generics.UpdateAPIView):
     serializer_class = ListItemSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    # def put(self, request, *args, **kwargs):
-    #     print(args)
-    #     print("=================================")
-    #     print(kwargs)
-    #     board_id = request.board_id
-    #     listid = request.listid
-    #     order = request.order
-    #     ListItem.objects.filter(board = board_id, id = listid).update(order= order)
-    #     return self.update(request, *args, **kwargs)
