@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, ListItem
+from .models import Board, ListItem, CardItem
 
 class BoardSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
@@ -22,4 +22,18 @@ class ListItemSerializer(serializers.ModelSerializer):
             listObj.order = (topOrder if topOrder is not None else 0) + 4096
         listObj.save()
         return listObj
-        
+
+class CardItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id', 'listitem', 'name', 'desc', 'order', 'created_at')
+        model = CardItem
+
+    def create(self, validated_data):
+        listId = validated_data['listitem']
+        cardObj = CardItem.objects.create(**validated_data)
+        top = CardItem.objects.filter(listitem=listId).order_by('-order')
+        if len(top) > 0:
+            topOrder = getattr(top[0], 'order')
+            cardObj.order = (topOrder if topOrder is not None else 0) + 4096
+        cardObj.save()
+        return cardObj
