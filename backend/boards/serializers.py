@@ -14,4 +14,15 @@ class ListItemSerializer(serializers.ModelSerializer):
         model = ListItem
 
     def create(self, validated_data):
-        return ListItem.objects.create(**validated_data)
+        boardId = validated_data['board']
+        listObj = ListItem.objects.create(**validated_data)
+        top = ListItem.objects.filter(board=boardId).order_by('-order')
+        if len(top) > 0:
+            topOrder = getattr(top[0], 'order')
+            listObj.order = (topOrder if topOrder is not None else 0) + 4096
+        listObj.save()
+        return listObj
+
+    def update(self, instance, validated_data):
+        print("UPDATE ==> ", instance, validated_data)    
+        return super(ListItemSerializer, self).update(instance, validated_data)

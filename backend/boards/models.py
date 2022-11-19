@@ -16,16 +16,9 @@ class Board(models.Model):
 class ListItem(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    order = models.PositiveIntegerField(default=1)
+    order = models.DecimalField(decimal_places=8, max_digits=16, default= 0.0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-    def save(self, *args, **kwargs): 
-      top = ListItem.objects.filter(board=self.board_id).order_by('-order')
-      topOrder = getattr(top[0], 'order')
-      self.order = (topOrder if topOrder is not None else 0) + 1
-      super(ListItem, self).save(*args, **kwargs)
     
     def __str__(self):
         return self.name
