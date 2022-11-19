@@ -22,7 +22,4 @@ class ListItemSerializer(serializers.ModelSerializer):
             listObj.order = (topOrder if topOrder is not None else 0) + 4096
         listObj.save()
         return listObj
-
-    def update(self, instance, validated_data):
-        print("UPDATE ==> ", instance, validated_data)    
-        return super(ListItemSerializer, self).update(instance, validated_data)
+        
