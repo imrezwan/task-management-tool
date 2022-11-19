@@ -14,7 +14,7 @@ class Board(models.Model):
         return self.name
 
 class ListItem(models.Model):
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="listitems")
     name = models.CharField(max_length=255)
     order = models.DecimalField(decimal_places=8, max_digits=16, default= 0.0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -25,7 +25,7 @@ class ListItem(models.Model):
 
 
 class CardItem(models.Model):
-    listitem = models.ForeignKey(ListItem, on_delete=models.CASCADE)
+    listitem = models.ForeignKey(ListItem, on_delete=models.CASCADE, related_name="carditems")
     name = models.CharField(max_length=255)
     desc = models.TextField(default="")
     order = models.DecimalField(decimal_places=8, max_digits=16, default= 0.0)

@@ -1,5 +1,4 @@
 from rest_framework import generics, permissions
-from rest_framework.views import View
 from .models import Board, ListItem, CardItem
 from .serializers import BoardSerializer, ListItemSerializer, CardItemSerializer
 
@@ -12,7 +11,6 @@ class BoardShow(generics.RetrieveUpdateDestroyAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
     permission_classes = (permissions.IsAuthenticated,)
-
 
 class ListItemCreate(generics.CreateAPIView):
     queryset = ListItem.objects.all()
