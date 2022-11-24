@@ -1,0 +1,37 @@
+<div class="container">
+    <p-menubar>
+        <ng-template pTemplate="start">
+            <button pButton pRipple type="button" label="Task Mangement Tool" class="p-button-text" style="font-weight: bold; font-size: 1.25rem;"></button>
+            <button (click)="createBoard()" type="button" pButton label="Create Board" icon="pi pi-plus" class="p-button-success" style="margin-left:.25em"></button>
+        </ng-template>
+        <ng-template pTemplate="end">
+            <button type="button" pButton label="Logout" icon="pi pi-power-off" class="p-button-danger" style="margin-left:.25em"></button>
+        </ng-template>
+    </p-menubar>
+
+    <div class="board-container">
+        <div class="listitem-container" *ngFor="let listitem of boardData.listItems; index as listIndex">
+            <p><b>{{listitem.name}}</b></p>
+            <div class="carditem-container" *ngFor="let carditem of listitem.cardItems">
+                <div>{{carditem.name}}</div>
+            </div>
+            <button 
+                (click)="openAddCardDialog(listIndex)" 
+                *ngIf="addCardBtnVisibility[listIndex]" 
+                pButton pRipple type="button" 
+                label="Add a card" 
+                class="p-button-outlined">
+            </button>
+            <div *ngIf="!addCardBtnVisibility[listIndex]" class="add-card-dialog">
+                <input type="text" pInputText [(ngModel)]="cardValue" /> 
+                <div class="card-add-input-option-section">
+                    <button pButton pRipple type="button" label="Add card" class="p-button-primary"></button>
+                    <button 
+                        (click)="toggleCardButtonVisibility(listIndex)"
+                        pButton pRipple type="button"
+                        icon="pi pi-times"
+                        class="p-button-rounded p-button-danger p-button-text cross-btn"></button>
+                </div>
+            </div>
+    </div>
+</div>
