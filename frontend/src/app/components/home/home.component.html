@@ -9,21 +9,28 @@
         </div>
     </div>
 
-    <div class="board-container">
+    <div cdkDropListGroup class="board-container">
         <div 
-            (onDrop)="drop(listitem.id)"
             class="listitem-container"
             *ngFor="let listitem of boardData.listItems; index as listIndex"
             >
             <p><b>{{listitem.name}}</b></p>
-            <div 
-                (onDragStart)="dragStart(carditem, listitem.id)"
-                (onDragEnd)="dragEnd()"
-                class="carditem-container" 
-                *ngFor="let carditem of listitem.cardItems"
+            <div
+                cdkDropList
+                [cdkDropListData]="listitem"
+                (cdkDropListDropped)="drop($event)"
+                class="allcard-container"
                 >
-                <div>{{carditem.name}}</div>
+                <div 
+                    cdkDrag
+                    class="carditem-container"
+                    *ngFor="let carditem of listitem.cardItems"
+                    >
+                    <div>{{carditem.name}}</div>
+                </div>
+
             </div>
+                
             <button 
                 (click)="openAddCardDialog(listIndex)" 
                 *ngIf="addCardBtnVisibility[listIndex]" 
@@ -34,10 +41,11 @@
                 <input type="text" [(ngModel)]="cardValue" /> 
                 <div class="card-add-input-option-section">
                     <button
-                         mat-flat-button
-                         class="add-card-button"
-                         type="button">
-                         Add card
+                        (click)="addNewCard(listIndex)"
+                        mat-flat-button
+                        class="add-card-button"
+                        type="button">
+                        Add card
                     </button>
 
                     <button 
@@ -51,5 +59,41 @@
                     
                 </div>
             </div>
+    
+    
+        </div>
+
+        <!-- New List Add -->
+        <div class="add-new-list-container">
+            <button 
+            (click)="openAddListDialog()" 
+            *ngIf="addListBtnVisibility"
+            class="add-a-list-btn" 
+            mat-stroked-button color="primary" type="button">
+            Add a List
+            </button>
+            <div *ngIf="!addListBtnVisibility" class="list-card-dialog">
+                <input type="text" [(ngModel)]="listValue" /> 
+                <div class="list-add-input-option-section">
+                    <button
+                        (click)="addNewList()"
+                        mat-flat-button
+                        class="list-card-button"
+                        type="button">
+                        Add List
+                    </button>
+
+                    <button 
+                        (click)="toggleListButtonVisibility()"
+                        mat-icon-button 
+                        color="warn"
+                        aria-label="Cancel button"
+                        class="cross-btn">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    
+                </div>
+            </div>
+        </div>
     </div>
 </div>

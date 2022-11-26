@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Board, CardItem } from 'src/app/tmt.interface';
+import { Board, CardItem, ListItem } from 'src/app/tmt.interface';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-home',
@@ -11,9 +16,11 @@ export class HomeComponent implements OnInit {
   addCardBtnVisibility: boolean[] = [];
   boardData!: Board;
   cardValue: String = '';
+  listValue: String = '';
   lastOpenedCardDialogIndex: number = -1;
   draggedCard!: any;
   draggedListId!: Number;
+  addListBtnVisibility: Boolean = true;
 
   constructor() {}
 
@@ -54,19 +61,19 @@ export class HomeComponent implements OnInit {
           order: 6000,
           cardItems: [
             {
-              id: 100,
+              id: 200,
               name: 'Office work',
               order: 2000,
               created_at: new Date(),
             },
             {
-              id: 101,
+              id: 201,
               name: 'Codebase Explore',
               order: 4000,
               created_at: new Date(),
             },
             {
-              id: 102,
+              id: 202,
               name: 'In Depth Design Pattern for Functional Programming',
               order: 7000,
               created_at: new Date(),
@@ -80,13 +87,13 @@ export class HomeComponent implements OnInit {
           order: 9000,
           cardItems: [
             {
-              id: 100,
+              id: 300,
               name: 'Breakfast',
               order: 2000,
               created_at: new Date(),
             },
             {
-              id: 101,
+              id: 301,
               name: 'Relax',
               order: 4000,
               created_at: new Date(),
@@ -98,9 +105,17 @@ export class HomeComponent implements OnInit {
       created_at: new Date(),
     };
 
+    this.boardData = {
+      id: 100,
+      name: "Board",
+      listItems: [],
+      created_at: new Date()
+    }
+
     for (var i = 0; i < this.boardData.listItems.length; i++) {
       this.addCardBtnVisibility.push(true);
     }
+
   }
 
   createBoard(): void {}
@@ -116,43 +131,135 @@ export class HomeComponent implements OnInit {
     this.lastOpenedCardDialogIndex = idx;
   }
 
-  dragStart(cardItem: CardItem, listId: Number): void {
-    this.draggedCard = cardItem;
-    this.draggedListId = listId;
+  openAddListDialog() {
+    this.toggleListButtonVisibility();
+    this.listValue = '';
   }
 
-  dragEnd() {
-    this.draggedCard = null;
+  toggleListButtonVisibility() {
+    this.addListBtnVisibility = !this.addListBtnVisibility;
   }
 
-  drop(listId: Number) {
-    if (this.draggedCard) {
-      let tempBoardData = Object.assign(this.boardData, {});
+  drop(event: CdkDragDrop<ListItem>) {
+    const prevIdx = event.previousIndex;
+    const curIdx = event.currentIndex;
+    const prevContainerData = event.previousContainer.data;
+    const currConatainerData = event.container.data;
 
-      //remove the dragged item
-      let draggedListIndex = tempBoardData.listItems.findIndex(
-        (item) => item.id == this.draggedListId
+    if (event.previousContainer === event.container) {
+      // card moved to the same list
+      const draggedListId = currConatainerData.id;
+
+      let draggedListIndex = this.boardData.listItems.findIndex(
+        (item) => item.id == draggedListId
       );
-      let updatedDraggedListItems = tempBoardData.listItems[draggedListIndex].cardItems.filter(item => item.id != this.draggedCard.id)
-      tempBoardData.listItems[draggedListIndex].cardItems = updatedDraggedListItems;
-      
-      // add the dragged item
-      let droppedListIndex = tempBoardData.listItems.findIndex(
-        (item) => item.id == listId
+
+      let allCardItems = this.boardData.listItems[draggedListIndex].cardItems;
+
+      if (curIdx === allCardItems.length) {
+        // last insert
+        allCardItems[prevIdx].order =
+          allCardItems[curIdx].order + allCardItems[prevIdx].order;
+      } else if (curIdx === 0) {
+        // first insert
+        allCardItems[prevIdx].order = allCardItems[0].order / 2;
+      } else {
+        //middle insert
+        allCardItems[prevIdx].order =
+          (allCardItems[curIdx - 1].order + allCardItems[curIdx].order) / 2;
+      }
+
+      moveItemInArray(allCardItems, prevIdx, curIdx);
+
+      for (let i = 0; i < allCardItems.length; i++) {
+        allCardItems[i].order += i * 100;
+      }
+    } else {
+      // card moved to the different list
+
+      const draggedListId = prevContainerData.id;
+      const droppedListId = currConatainerData.id;
+
+      let draggedListIndex = this.boardData.listItems.findIndex(
+        (item) => item.id == draggedListId
       );
-      tempBoardData.listItems[
-        droppedListIndex
-      ].cardItems.push(this.draggedCard)
 
-            
+      let droppedListIndex = this.boardData.listItems.findIndex(
+        (item) => item.id == droppedListId
+      );
 
+      let allDraggedListCardItems =
+        this.boardData.listItems[draggedListIndex].cardItems;
+      let allDroppedListCardItems =
+        this.boardData.listItems[droppedListIndex].cardItems;
 
-      // let draggedProductIndex = this.findIndex(this.draggedCard);
-      // this.selectedProducts = [...this.selectedProducts, this.draggedProduct];
-      // this.availableProducts = this.availableProducts.filter(
-      //   (val, i) => i != draggedProductIndex
-      // );
-      // this.draggedProduct = null;
+      if (allDroppedListCardItems.length > 0) {
+        // dropped list is not empty
+
+        if (curIdx === allDroppedListCardItems.length) {
+          // last insert
+          allDraggedListCardItems[prevIdx].order =
+            allDroppedListCardItems[curIdx].order +
+            allDraggedListCardItems[prevIdx].order;
+        } else if (curIdx === 0) {
+          // first insert
+          allDraggedListCardItems[prevIdx].order =
+            !!allDroppedListCardItems.length
+              ? allDroppedListCardItems[0].order / 2
+              : allDraggedListCardItems[prevIdx].order;
+        } else {
+          // middle insert
+          allDraggedListCardItems[prevIdx].order =
+            (allDroppedListCardItems[curIdx - 1].order +
+              allDroppedListCardItems[curIdx].order) /
+            2;
+        }
+      }
+
+      transferArrayItem(
+        allDraggedListCardItems,
+        allDroppedListCardItems,
+        prevIdx,
+        curIdx
+      );
+
+      // increasing each order so that no order is overlapping after the new order index operation
+      for (let i = 0; i < allDroppedListCardItems.length; i++) {
+        allDroppedListCardItems[i].order += i * 100;
+      }
     }
+
+    console.log(this.boardData.listItems)
+  }
+
+  addNewCard(listIndex: number): void {
+    let cardLists = this.boardData.listItems[listIndex].cardItems;
+    let cardListLen = cardLists.length;
+    console.log(this.cardValue);
+    this.boardData.listItems[listIndex].cardItems.push({
+      id: cardListLen * 100,
+      name: this.cardValue,
+      order: !!cardListLen ? cardLists[cardListLen - 1].order + 2000 : 4096,
+      created_at: new Date(),
+    });
+
+    this.cardValue = '';
+    this.toggleCardButtonVisibility(listIndex);
+  }
+
+  addNewList(): void {
+    let lists = this.boardData.listItems;
+    let totalLists = lists.length;
+    console.log(this.cardValue);
+    this.boardData.listItems.push({
+      id: totalLists * 100,
+      name: this.listValue,
+      cardItems: [],
+      order: !!totalLists ? lists[totalLists - 1].order + 2000 : 4096,
+      created_at: new Date(),
+    });
+
+    this.listValue = '';
+    this.toggleListButtonVisibility();
   }
 }

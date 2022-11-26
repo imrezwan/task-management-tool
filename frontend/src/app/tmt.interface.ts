@@ -9,7 +9,7 @@ export interface Board {
 export interface ListItem {
     id: Number;
     name: String;
-    order: Number;
+    order: number;
     cardItems: CardItem[];
     created_at: Date;
 }
@@ -17,7 +17,7 @@ export interface ListItem {
 export interface CardItem {
     id: Number;
     name: String;
-    order: Number;
+    order: number;
     desc?: String;
     created_at: Date;
 }

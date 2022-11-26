@@ -20,25 +20,28 @@ $button-primary: #0079bf;
         margin-right: 20px;
         padding: 10px;
         background: #ebecf0;
-        border: 1px solid gray;
-        border-radius: 10px;
         text-align: center;
+        border-radius: 10px;
+        box-shadow: 0px 0px 2px 1px darkgrey;
 
         > * {
             min-width: 240px;
         }
 
-        .carditem-container {
-            background-color: white;
-            color: black;
-            padding: 10px;
-            margin-bottom: 5px;
-            margin-top: 5px;
-            border-radius: 5px;
-            box-shadow: inset 0 0 2px #00002c;
-            font-weight: normal;
-            caret-color: auto;
-            
+        .allcard-container {
+            min-height: 5px;
+
+            .carditem-container {
+                background-color: white;
+                color: black;
+                padding: 10px;
+                margin-bottom: 5px;
+                margin-top: 5px;
+                border-radius: 5px;
+                box-shadow: inset 0 0 2px #00002c;
+                font-weight: normal;
+                caret-color: auto;
+            }
         }
 
         .add-card-dialog {
@@ -67,4 +70,45 @@ $button-primary: #0079bf;
             }
         }
     }
+
+    .add-new-list-container {
+        padding: 10px;
+        background-color: #efefef;
+        border-radius: 10px;
+        box-shadow: 0px 0px 2px 1px darkgrey;
+
+        .add-a-list-btn {
+            min-width: 240px;
+            background-color: #d6d9d7;
+            font-weight: bold;
+            color: black;
+        }
+
+        .list-card-dialog {
+            margin-top: 20px;
+
+            > * {
+                min-width: 240px;
+            }
+
+            input {
+                min-height: 80px;
+                padding: 10px;
+            }
+
+            .list-add-input-option-section {
+                margin-top: 10px;
+
+                .list-card-button {
+                    background-color: $button-primary;
+                    color: white;
+                }
+
+                .cross-btn {
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+    
 }
