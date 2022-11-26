@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Board } from 'src/app/tmt.interface';
+import { Board, CardItem } from 'src/app/tmt.interface';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +12,8 @@ export class HomeComponent implements OnInit {
   boardData!: Board;
   cardValue: String = '';
   lastOpenedCardDialogIndex: number = -1;
+  draggedCard!: any;
+  draggedListId!: Number;
 
   constructor() {}
 
@@ -114,4 +116,43 @@ export class HomeComponent implements OnInit {
     this.lastOpenedCardDialogIndex = idx;
   }
 
+  dragStart(cardItem: CardItem, listId: Number): void {
+    this.draggedCard = cardItem;
+    this.draggedListId = listId;
+  }
+
+  dragEnd() {
+    this.draggedCard = null;
+  }
+
+  drop(listId: Number) {
+    if (this.draggedCard) {
+      let tempBoardData = Object.assign(this.boardData, {});
+
+      //remove the dragged item
+      let draggedListIndex = tempBoardData.listItems.findIndex(
+        (item) => item.id == this.draggedListId
+      );
+      let updatedDraggedListItems = tempBoardData.listItems[draggedListIndex].cardItems.filter(item => item.id != this.draggedCard.id)
+      tempBoardData.listItems[draggedListIndex].cardItems = updatedDraggedListItems;
+      
+      // add the dragged item
+      let droppedListIndex = tempBoardData.listItems.findIndex(
+        (item) => item.id == listId
+      );
+      tempBoardData.listItems[
+        droppedListIndex
+      ].cardItems.push(this.draggedCard)
+
+            
+
+
+      // let draggedProductIndex = this.findIndex(this.draggedCard);
+      // this.selectedProducts = [...this.selectedProducts, this.draggedProduct];
+      // this.availableProducts = this.availableProducts.filter(
+      //   (val, i) => i != draggedProductIndex
+      // );
+      // this.draggedProduct = null;
+    }
+  }
 }
