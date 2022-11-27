@@ -16,7 +16,7 @@ export interface ListItem {
 }
 
 export interface CardItem {
-    id: Number;
+    id: number;
     name: String;
     order: number;
     listitem: number;

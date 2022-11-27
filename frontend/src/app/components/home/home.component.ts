@@ -23,14 +23,12 @@ export class HomeComponent implements OnInit {
   draggedCard!: any;
   draggedListId!: Number;
   addListBtnVisibility: Boolean = true;
-  boardId: number = 5;
+  boardId: number = 2;
 
   constructor(
     private http: AppHttpService,
     private notification: NotificationService
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit(): void {
     this.http.get(`board/${this.boardId}/`).subscribe((board: any) => {
@@ -89,14 +87,16 @@ export class HomeComponent implements OnInit {
       } else {
         //middle insert
         allCardItems[prevIdx].order =
-          (allCardItems[curIdx - 1].order + allCardItems[curIdx].order) / 2;
+          (allCardItems[curIdx + 1].order + allCardItems[curIdx].order) / 2;
       }
 
       moveItemInArray(allCardItems, prevIdx, curIdx);
 
-      for (let i = 0; i < allCardItems.length; i++) {
-        allCardItems[i].order += i * 100;
-      }
+      this.saveCardOrder(draggedListId, allCardItems[curIdx]);
+
+      // for (let i = 0; i < allCardItems.length; i++) {
+      //   allCardItems[i].order += (i+1) * 100;
+      // }
     } else {
       // card moved to the different list
 
@@ -146,14 +146,28 @@ export class HomeComponent implements OnInit {
         curIdx
       );
 
+      this.saveCardOrder(
+        droppedListId,
+        allDroppedListCardItems[curIdx]
+      );
+
       // increasing each order so that no order is overlapping after the new order index operation
       // TODO: do it only when two order is too close
-      for (let i = 0; i < allDroppedListCardItems.length; i++) {
-        allDroppedListCardItems[i].order += i * 100;
-      }
+      // for (let i = 0; i < allDroppedListCardItems.length; i++) {
+      //   allDroppedListCardItems[i].order += i * 100;
+      // }
     }
 
-    console.log(this.boardData.listitems)
+    console.log(this.boardData.listitems);
+  }
+
+  saveCardOrder(newListId: number, draggedCard: CardItem): void {
+    this.http
+      .patch(`updatecardorder/${draggedCard.id}/`, {
+        listitem: newListId,
+        order: draggedCard.order,
+      })
+      .subscribe((_) => _);
   }
 
   addNewCard(listid: number, listIndex: number): void {
@@ -180,16 +194,18 @@ export class HomeComponent implements OnInit {
 
   addNewList(): void {
     if (!this.listValue) {
-      this.notification.openSnackBar('Please enter list name first',
-        NotificationType.WARN);
+      this.notification.openSnackBar(
+        'Please enter list name first',
+        NotificationType.WARN
+      );
       return;
     }
 
     this.http
       .post('createlist/', {
-        "name": this.listValue,
-        "board": this.boardId,
-        "carditems": [],
+        name: this.listValue,
+        board: this.boardId,
+        carditems: [],
       })
       .subscribe((newList) => {
         this.boardData.listitems.push(newList);
