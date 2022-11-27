@@ -68,3 +68,20 @@ class CardItemOrderUpdate(generics.UpdateAPIView):
     serializer_class = CardItemSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
+
+class AllCardItemOrderUpdate(generics.ListAPIView):
+    queryset = CardItem.objects.all()
+    serializer_class = CardItemSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        listid = self.kwargs['list_id']
+        queryset = CardItem.objects.filter(listitem=listid).order_by(
+            'order')
+        if listid is not None:
+            all_cards = queryset
+            for i, card in enumerate(all_cards):
+                card.order = card.order + (i+1)*100
+                card.save()
+
+        return queryset
