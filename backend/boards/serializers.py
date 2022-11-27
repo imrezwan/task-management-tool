@@ -13,11 +13,11 @@ class CardItemSerializer(serializers.ModelSerializer):
         if len(top) > 0:
             topOrder = getattr(top[0], 'order')
             cardObj.order = (topOrder if topOrder is not None else 0) + 4096
-        cardObj.save()
+            cardObj.save()
         return cardObj
 
 class ListItemSerializer(serializers.ModelSerializer):
-    carditems = CardItemSerializer(many=True)
+    carditems = CardItemSerializer(many=True, read_only=True,)
     class Meta:
         fields = ('id', 'board', 'name', 'order', 'created_at', 'carditems')
         model = ListItem
@@ -30,6 +30,7 @@ class ListItemSerializer(serializers.ModelSerializer):
         if len(top) > 0:
             topOrder = getattr(top[0], 'order')
             listObj.order = (topOrder if topOrder is not None else 0) + 4096
+            listObj.save()
         return listObj
 
 
@@ -39,3 +40,8 @@ class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('id', 'owner', 'name', 'created_at', 'listitems')
         model = Board
+    
+    def create(self, validated_data):
+        validated_data.pop('listitems')
+        boardObj = Board.objects.create(**validated_data)
+        return boardObj
