@@ -7,7 +7,7 @@ class BoardCreate(generics.CreateAPIView):
     serializer_class = BoardSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-class BoardShow(generics.RetrieveUpdateDestroyAPIView):
+class BoardShow(generics.RetrieveAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
     permission_classes = (permissions.IsAuthenticated,)
