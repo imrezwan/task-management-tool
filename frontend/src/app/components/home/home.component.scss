@@ -14,6 +14,11 @@ $button-primary: #0079bf;
     display: flex;
     align-items: flex-start;
 
+    .all-lists-container {
+        display: flex;
+        align-items: flex-start;
+    }
+
 
     .listitem-container {
         max-width: 260px;

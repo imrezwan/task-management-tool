@@ -5,6 +5,8 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { AppHttpService } from 'src/app/services/apphttp.service';
+import { NotificationService, NotificationType } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -21,101 +23,22 @@ export class HomeComponent implements OnInit {
   draggedCard!: any;
   draggedListId!: Number;
   addListBtnVisibility: Boolean = true;
+  boardId: number = 5;
 
-  constructor() {}
+  constructor(
+    private http: AppHttpService,
+    private notification: NotificationService
+  ) {
+    
+  }
 
   ngOnInit(): void {
-    this.boardData = {
-      id: 1,
-      name: 'First Board',
-      listItems: [
-        {
-          id: 1,
-          name: 'To Do',
-          order: 1000,
-          cardItems: [
-            {
-              id: 100,
-              name: 'Learn Functional Programming',
-              order: 2000,
-              created_at: new Date(),
-            },
-            {
-              id: 101,
-              name: 'Learn Scala',
-              order: 4000,
-              created_at: new Date(),
-            },
-            {
-              id: 102,
-              name: 'Finish TMT Project',
-              order: 7000,
-              created_at: new Date(),
-            },
-          ],
-          created_at: new Date(),
-        },
-        {
-          id: 2,
-          name: 'In Progress',
-          order: 6000,
-          cardItems: [
-            {
-              id: 200,
-              name: 'Office work',
-              order: 2000,
-              created_at: new Date(),
-            },
-            {
-              id: 201,
-              name: 'Codebase Explore',
-              order: 4000,
-              created_at: new Date(),
-            },
-            {
-              id: 202,
-              name: 'In Depth Design Pattern for Functional Programming',
-              order: 7000,
-              created_at: new Date(),
-            },
-          ],
-          created_at: new Date(),
-        },
-        {
-          id: 3,
-          name: 'Completed',
-          order: 9000,
-          cardItems: [
-            {
-              id: 300,
-              name: 'Breakfast',
-              order: 2000,
-              created_at: new Date(),
-            },
-            {
-              id: 301,
-              name: 'Relax',
-              order: 4000,
-              created_at: new Date(),
-            },
-          ],
-          created_at: new Date(),
-        },
-      ],
-      created_at: new Date(),
-    };
-
-    this.boardData = {
-      id: 100,
-      name: "Board",
-      listItems: [],
-      created_at: new Date()
-    }
-
-    for (var i = 0; i < this.boardData.listItems.length; i++) {
-      this.addCardBtnVisibility.push(true);
-    }
-
+    this.http.get(`board/${this.boardId}/`).subscribe((board: any) => {
+      this.boardData = board;
+      for (var i = 0; i < this.boardData.listitems.length; i++) {
+        this.addCardBtnVisibility.push(true);
+      }
+    });
   }
 
   createBoard(): void {}
@@ -150,11 +73,11 @@ export class HomeComponent implements OnInit {
       // card moved to the same list
       const draggedListId = currConatainerData.id;
 
-      let draggedListIndex = this.boardData.listItems.findIndex(
+      let draggedListIndex = this.boardData.listitems.findIndex(
         (item) => item.id == draggedListId
       );
 
-      let allCardItems = this.boardData.listItems[draggedListIndex].cardItems;
+      let allCardItems = this.boardData.listitems[draggedListIndex].carditems;
 
       if (curIdx === allCardItems.length) {
         // last insert
@@ -180,18 +103,18 @@ export class HomeComponent implements OnInit {
       const draggedListId = prevContainerData.id;
       const droppedListId = currConatainerData.id;
 
-      let draggedListIndex = this.boardData.listItems.findIndex(
+      let draggedListIndex = this.boardData.listitems.findIndex(
         (item) => item.id == draggedListId
       );
 
-      let droppedListIndex = this.boardData.listItems.findIndex(
+      let droppedListIndex = this.boardData.listitems.findIndex(
         (item) => item.id == droppedListId
       );
 
       let allDraggedListCardItems =
-        this.boardData.listItems[draggedListIndex].cardItems;
+        this.boardData.listitems[draggedListIndex].carditems;
       let allDroppedListCardItems =
-        this.boardData.listItems[droppedListIndex].cardItems;
+        this.boardData.listitems[droppedListIndex].carditems;
 
       if (allDroppedListCardItems.length > 0) {
         // dropped list is not empty
@@ -224,42 +147,143 @@ export class HomeComponent implements OnInit {
       );
 
       // increasing each order so that no order is overlapping after the new order index operation
+      // TODO: do it only when two order is too close
       for (let i = 0; i < allDroppedListCardItems.length; i++) {
         allDroppedListCardItems[i].order += i * 100;
       }
     }
 
-    console.log(this.boardData.listItems)
+    console.log(this.boardData.listitems)
   }
 
-  addNewCard(listIndex: number): void {
-    let cardLists = this.boardData.listItems[listIndex].cardItems;
-    let cardListLen = cardLists.length;
-    console.log(this.cardValue);
-    this.boardData.listItems[listIndex].cardItems.push({
-      id: cardListLen * 100,
-      name: this.cardValue,
-      order: !!cardListLen ? cardLists[cardListLen - 1].order + 2000 : 4096,
-      created_at: new Date(),
-    });
+  addNewCard(listid: number, listIndex: number): void {
+    if (!this.cardValue) {
+      this.notification.openSnackBar(
+        'Please enter card name first',
+        NotificationType.WARN
+      );
+      return;
+    }
+
+    this.http
+      .post('createcard/', {
+        name: this.cardValue,
+        listitem: listid,
+      })
+      .subscribe((newcard) => {
+        this.boardData.listitems[listIndex].carditems.push(newcard);
+      });
 
     this.cardValue = '';
     this.toggleCardButtonVisibility(listIndex);
   }
 
   addNewList(): void {
-    let lists = this.boardData.listItems;
-    let totalLists = lists.length;
-    console.log(this.cardValue);
-    this.boardData.listItems.push({
-      id: totalLists * 100,
-      name: this.listValue,
-      cardItems: [],
-      order: !!totalLists ? lists[totalLists - 1].order + 2000 : 4096,
-      created_at: new Date(),
-    });
+    if (!this.listValue) {
+      this.notification.openSnackBar('Please enter list name first',
+        NotificationType.WARN);
+      return;
+    }
+
+    this.http
+      .post('createlist/', {
+        "name": this.listValue,
+        "board": this.boardId,
+        "carditems": [],
+      })
+      .subscribe((newList) => {
+        this.boardData.listitems.push(newList);
+      });
 
     this.listValue = '';
     this.toggleListButtonVisibility();
   }
 }
+
+
+    // this.boardData = {
+    //   id: 1,
+    //   name: 'First Board',
+    //   listitems: [
+    //     {
+    //       id: 1,
+    //       name: 'To Do',
+    //       order: 1000,
+    //       carditems: [
+    //         {
+    //           id: 100,
+    //           name: 'Learn Functional Programming',
+    //           order: 2000,
+    //           created_at: new Date(),
+    //         },
+    //         {
+    //           id: 101,
+    //           name: 'Learn Scala',
+    //           order: 4000,
+    //           created_at: new Date(),
+    //         },
+    //         {
+    //           id: 102,
+    //           name: 'Finish TMT Project',
+    //           order: 7000,
+    //           created_at: new Date(),
+    //         },
+    //       ],
+    //       created_at: new Date(),
+    //     },
+    //     {
+    //       id: 2,
+    //       name: 'In Progress',
+    //       order: 6000,
+    //       carditems: [
+    //         {
+    //           id: 200,
+    //           name: 'Office work',
+    //           order: 2000,
+    //           created_at: new Date(),
+    //         },
+    //         {
+    //           id: 201,
+    //           name: 'Codebase Explore',
+    //           order: 4000,
+    //           created_at: new Date(),
+    //         },
+    //         {
+    //           id: 202,
+    //           name: 'In Depth Design Pattern for Functional Programming',
+    //           order: 7000,
+    //           created_at: new Date(),
+    //         },
+    //       ],
+    //       created_at: new Date(),
+    //     },
+    //     {
+    //       id: 3,
+    //       name: 'Completed',
+    //       order: 9000,
+    //       carditems: [
+    //         {
+    //           id: 300,
+    //           name: 'Breakfast',
+    //           order: 2000,
+    //           created_at: new Date(),
+    //         },
+    //         {
+    //           id: 301,
+    //           name: 'Relax',
+    //           order: 4000,
+    //           created_at: new Date(),
+    //         },
+    //       ],
+    //       created_at: new Date(),
+    //     },
+    //   ],
+    //   created_at: new Date(),
+    // };
+
+    // this.boardData = {
+    //   id: 100,
+    //   name: "Board",
+    //   listitems: [],
+    //   created_at: new Date()
+    // }

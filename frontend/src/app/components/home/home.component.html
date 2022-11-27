@@ -10,58 +10,62 @@
     </div>
 
     <div cdkDropListGroup class="board-container">
-        <div 
-            class="listitem-container"
-            *ngFor="let listitem of boardData.listItems; index as listIndex"
-            >
-            <p><b>{{listitem.name}}</b></p>
+        <div
+            *ngIf="!!boardData" 
+            class="all-lists-container">
             <div
-                cdkDropList
-                [cdkDropListData]="listitem"
-                (cdkDropListDropped)="drop($event)"
-                class="allcard-container"
+                class="listitem-container"
+                *ngFor="let listitem of boardData.listitems; index as listIndex"
                 >
-                <div 
-                    cdkDrag
-                    class="carditem-container"
-                    *ngFor="let carditem of listitem.cardItems"
+                <p><b>{{listitem.name}}</b></p>
+                <div
+                    cdkDropList
+                    [cdkDropListData]="listitem"
+                    (cdkDropListDropped)="drop($event)"
+                    class="allcard-container"
                     >
-                    <div>{{carditem.name}}</div>
+                    <div 
+                        cdkDrag
+                        class="carditem-container"
+                        *ngFor="let carditem of listitem.carditems"
+                        >
+                        <div>{{carditem.name}}</div>
+                    </div>
+
                 </div>
-
-            </div>
-                
-            <button 
-                (click)="openAddCardDialog(listIndex)" 
-                *ngIf="addCardBtnVisibility[listIndex]" 
-                mat-stroked-button color="primary" type="button">
-                Add a card
-            </button>
-            <div *ngIf="!addCardBtnVisibility[listIndex]" class="add-card-dialog">
-                <input type="text" [(ngModel)]="cardValue" /> 
-                <div class="card-add-input-option-section">
-                    <button
-                        (click)="addNewCard(listIndex)"
-                        mat-flat-button
-                        class="add-card-button"
-                        type="button">
-                        Add card
-                    </button>
-
-                    <button 
-                        (click)="toggleCardButtonVisibility(listIndex)"
-                        mat-icon-button 
-                        color="warn"
-                        aria-label="Cancel button"
-                        class="cross-btn">
-                        <mat-icon>close</mat-icon>
-                    </button>
                     
+                <button 
+                    (click)="openAddCardDialog(listIndex)" 
+                    *ngIf="addCardBtnVisibility[listIndex]" 
+                    mat-stroked-button color="primary" type="button">
+                    Add a card
+                </button>
+                <div *ngIf="!addCardBtnVisibility[listIndex]" class="add-card-dialog">
+                    <input type="text" [(ngModel)]="cardValue" /> 
+                    <div class="card-add-input-option-section">
+                        <button
+                            (click)="addNewCard(listitem.id, listIndex)"
+                            mat-flat-button
+                            class="add-card-button"
+                            type="button">
+                            Add card
+                        </button>
+
+                        <button 
+                            (click)="toggleCardButtonVisibility(listIndex)"
+                            mat-icon-button 
+                            color="warn"
+                            aria-label="Cancel button"
+                            class="cross-btn">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        
+                    </div>
                 </div>
             </div>
-    
-    
+
         </div>
+        
 
         <!-- New List Add -->
         <div class="add-new-list-container">

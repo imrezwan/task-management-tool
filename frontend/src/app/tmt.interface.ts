@@ -2,15 +2,16 @@
 export interface Board {
     id: Number;
     name: String;
-    listItems: ListItem[];
+    owner: number;
+    listitems: ListItem[];
     created_at: Date;
 }
 
 export interface ListItem {
-    id: Number;
+    id: number;
     name: String;
     order: number;
-    cardItems: CardItem[];
+    carditems: CardItem[];
     created_at: Date;
 }
 
@@ -18,6 +19,7 @@ export interface CardItem {
     id: Number;
     name: String;
     order: number;
+    listitem: number;
     desc?: String;
     created_at: Date;
 }
