@@ -96,6 +96,11 @@ LOGGING = {
             'level': 'DEBUG',  # change debug level as appropiate
             'propagate': False,
         },
+        'django.db': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        }
     },
 }
 
