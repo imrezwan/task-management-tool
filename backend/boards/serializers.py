@@ -24,7 +24,6 @@ class ListItemSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         boardId = validated_data['board']
-        validated_data.pop('carditems')
         listObj = ListItem.objects.create(**validated_data)
         top = ListItem.objects.filter(board=boardId).order_by('-order')
         if len(top) > 0:
