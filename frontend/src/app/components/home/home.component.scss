@@ -9,10 +9,11 @@ $button-primary: #0079bf;
 
 .board-container {
     background-color: $bgColor;
-    height: 100vh;
+    height: calc(100vh - 60px);
     padding: 20px;
     display: flex;
     align-items: flex-start;
+    overflow: auto;
 
     .all-lists-container {
         display: flex;
