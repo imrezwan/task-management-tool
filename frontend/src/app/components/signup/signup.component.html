@@ -2,34 +2,69 @@
     <mat-card>
         <h3>Task Management Tool</h3>
         <hr>
+        <form (ngSubmit)="signUp()" [formGroup]="signUpForm" >
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Username</mat-label>
-                <input matInput placeholder="Enter username" type="text">
+                <input matInput [formControl]="signUpForm.get('username')" placeholder="Enter username" type="text">
                 <mat-icon matSuffix>account_circle</mat-icon>
+                <mat-error *ngIf="signUpForm.controls['username'].errors?.['required']">
+                    Please enter username
+                </mat-error>
             </mat-form-field>
+
         </p>
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
-                <input matInput placeholder="Enter username" type="email">
+                <input matInput formControlName="email" placeholder="Enter username" type="email">
                 <mat-icon matSuffix>mail</mat-icon>
+                <mat-error *ngIf="signUpForm.controls['email'].errors?.['email']">
+                    Please enter email address
+                </mat-error>
+                <mat-error *ngIf="signUpForm.controls['password2'].errors?.['required']">
+                    Password enter a email 
+                </mat-error>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
-                <input matInput placeholder="Enter password">
+                <input matInput formControlName="password1" placeholder="Enter password" [type]="showPass ? 'text' : 'password'">
                 <mat-icon matSuffix>lock</mat-icon>
+                <mat-error *ngIf="signUpForm.controls['password1'].errors?.['minLength']">
+                    Password length has to be at least 5 characters 
+                </mat-error>
+                <mat-error *ngIf="signUpForm.controls['password1'].errors?.['required']">
+                    Password enter a password 
+                </mat-error>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Confirm Password</mat-label>
-                <input matInput placeholder="Enter password again">
+                <input matInput formControlName="password2" placeholder="Enter password again" [type]="showPass ? 'text' : 'password'">
                 <mat-icon matSuffix>lock</mat-icon>
+                 <mat-error *ngIf="signUpForm.controls['password2'].errors?.['minLength']">
+                    Password length has to be at least 5 characters 
+                </mat-error>
+                <mat-error *ngIf="signUpForm.controls['password1'].errors?.['required']">
+                    Password enter a password 
+                </mat-error>
+                <mat-error *ngIf="isDiffPass">
+                    Password and confirm password should be same
+                </mat-error>
             </mat-form-field>
         </p>
-        <button mat-raised-button color="primary">Submit</button>
+        <input type="checkbox" (click)="togglePasswordVisibility()">Show Password
+        <button
+            [disabled]="!signUpForm.valid"
+            mat-raised-button
+            type="submit"
+            color="primary">
+                Sign Up
+        </button>
+        </form>
     </mat-card>
+    <ng-snotify></ng-snotify>
 </div>

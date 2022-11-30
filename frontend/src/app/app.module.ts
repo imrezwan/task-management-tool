@@ -8,7 +8,7 @@ import { HomeComponent } from './components/home/home.component';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -19,6 +19,7 @@ import { IsAuthenticated } from './services/activators';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, SignUpComponent, SignInComponent],
@@ -28,6 +29,7 @@ import { MatInputModule } from '@angular/material/input';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
@@ -36,8 +38,13 @@ import { MatInputModule } from '@angular/material/input';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    SnotifyModule,
   ],
-  providers: [IsAuthenticated],
+  providers: [
+    IsAuthenticated,
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
+    SnotifyService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
