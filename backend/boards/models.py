@@ -19,6 +19,9 @@ class ListItem(models.Model):
     order = models.DecimalField(decimal_places=8, max_digits=16, default= 0.0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order']
     
     def __str__(self):
         return self.name

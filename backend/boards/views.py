@@ -1,6 +1,11 @@
 from rest_framework import generics, permissions
-from .models import Board, ListItem, CardItem
-from .serializers import BoardSerializer, ListItemSerializer, CardItemSerializer
+from .models import Board, CardItem, ListItem
+from .permissions import IsOwner
+from .serializers import (BoardSerializer, CardItemSerializer, ListItemSerializer, UserSerializer)
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
 
 class BoardCreate(generics.CreateAPIView):
     queryset = Board.objects.all()
@@ -10,7 +15,7 @@ class BoardCreate(generics.CreateAPIView):
 class BoardShow(generics.RetrieveAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, IsOwner)
 
 class ListItemCreate(generics.CreateAPIView):
     queryset = ListItem.objects.all()
@@ -85,3 +90,12 @@ class AllCardItemOrderUpdate(generics.ListAPIView):
                 card.save()
 
         return queryset
+
+
+class UserShow(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    
+    def get(self, request, format=None):
+        return Response({'username': request.user.username, 'email': request.user.email})
+
+

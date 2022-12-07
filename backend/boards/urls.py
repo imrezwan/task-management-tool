@@ -1,7 +1,9 @@
 from django.urls import path, include
-from .views import AllCardItemOrderUpdate, BoardCreate, BoardShow, ListItemCreate, ListItemShow, ListItemAll, ListItemOrderUpdate, CardItemCreate, CardItemShow, CardItemAll, CardItemOrderUpdate
+from .views import AllCardItemOrderUpdate, BoardCreate, BoardShow, ListItemCreate, ListItemShow, ListItemAll, ListItemOrderUpdate, CardItemCreate, CardItemShow, CardItemAll, CardItemOrderUpdate, UserShow
 
 urlpatterns = [
+    path('currentuser/', UserShow.as_view()),
+
     path('createboard/', BoardCreate.as_view()),
     path('board/<int:pk>/', BoardShow.as_view()),
 

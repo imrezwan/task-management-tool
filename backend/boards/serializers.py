@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, ListItem, CardItem
+from .models import Board, ListItem, CardItem, User
 
 class CardItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,3 +44,8 @@ class BoardSerializer(serializers.ModelSerializer):
         validated_data.pop('listitems')
         boardObj = Board.objects.create(**validated_data)
         return boardObj
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ( 'username', 'email' )
+        model = User
