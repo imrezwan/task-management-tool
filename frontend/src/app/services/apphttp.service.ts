@@ -2,18 +2,22 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from '../config';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppHttpService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private storage: StorageService,
+  ) { }
 
   get(url: string, params?: any) {
     return this.http.request('GET', config.api.baseUrl + url, {
       params: new HttpParams({ fromObject: params }),
       headers: new HttpHeaders({
-        Authorization: 'Token 6d1837911dbfb85218ed15dbf1319a2bebe86066',
+        Authorization: config.api.tokenValue(this.storage.get('token') || ''),
       }),
     });
   }
@@ -35,7 +39,7 @@ export class AppHttpService {
       params: new HttpParams({ fromObject: params }),
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: 'Token 6d1837911dbfb85218ed15dbf1319a2bebe86066',
+        Authorization: config.api.tokenValue(this.storage.get('token') || ''),
       }),
     });
   }

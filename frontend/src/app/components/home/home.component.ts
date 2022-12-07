@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Board, CardItem, ListItem } from 'src/app/tmt.interface';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppHttpService } from 'src/app/services/apphttp.service';
-import { NotificationService, NotificationType } from 'src/app/services/notification.service';
+import {
+  NotificationService,
+  NotificationType,
+} from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
+import { Board, CardItem, ListItem } from 'src/app/tmt.interface';
 
 @Component({
   selector: 'app-home',
@@ -24,11 +29,15 @@ export class HomeComponent implements OnInit {
   draggedListId!: Number;
   addListBtnVisibility: Boolean = true;
   boardId: number = 2;
+  username: string = '';
 
   constructor(
     private http: AppHttpService,
-    private notification: NotificationService
-  ) {}
+    private notification: NotificationService,
+    private userService: UserService,
+    private router: Router
+  ) {
+  }
 
   ngOnInit(): void {
     this.http.get(`board/${this.boardId}/`).subscribe((board: any) => {
@@ -36,6 +45,10 @@ export class HomeComponent implements OnInit {
       for (var i = 0; i < this.boardData.listitems.length; i++) {
         this.addCardBtnVisibility.push(true);
       }
+    });
+
+    this.userService.getCurrentUser().subscribe(res => {
+      this.username = res.username;
     });
   }
 
@@ -146,10 +159,7 @@ export class HomeComponent implements OnInit {
         curIdx
       );
 
-      this.saveCardOrder(
-        droppedListId,
-        allDroppedListCardItems[curIdx]
-      );
+      this.saveCardOrder(droppedListId, allDroppedListCardItems[curIdx]);
 
       // increasing each order so that no order is overlapping after the new order index operation
       // TODO: do it only when two order is too close
@@ -213,5 +223,12 @@ export class HomeComponent implements OnInit {
 
     this.listValue = '';
     this.toggleListButtonVisibility();
+  }
+
+  logOut(): void {
+    this.userService.logOut();
+    this.userService.token = "";
+    this.router.navigate(['signin']);
+    console.log("NAVIGATE TO SIGNIN")
   }
 }

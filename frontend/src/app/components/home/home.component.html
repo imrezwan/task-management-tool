@@ -5,7 +5,11 @@
             <button mat-raised-button (click)="createBoard()" color="primary" type="button" style="margin-left:.25em">Create Board</button>
         </div>
         <div class="toolbar-right">
-            <button mat-raised-button color="warn" type="button" style="margin-left:.25em">Logout</button>
+            <div *ngIf="username">
+                {{username}}
+                <button (click)="logOut()" mat-raised-button color="warn" type="button" style="margin-left:.25em">Logout</button>
+            </div>
+            
         </div>
     </div>
 

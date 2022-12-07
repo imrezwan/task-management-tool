@@ -2,20 +2,43 @@
     <mat-card>
         <h3>Task Management Tool</h3>
         <hr>
+        <form (ngSubmit)="login()" [formGroup]="loginForm" >
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Username</mat-label>
-                <input matInput placeholder="Enter username" type="text">
+                <input matInput [formControl]="loginForm.get('username')" placeholder="Enter username" type="text">
                 <mat-icon matSuffix>account_circle</mat-icon>
+                <mat-error *ngIf="loginForm.controls['username'].errors?.['required']">
+                    Please enter username
+                </mat-error>
             </mat-form-field>
+
         </p>
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
-                <input matInput placeholder="Enter password">
+                <input matInput formControlName="password" placeholder="Enter password" [type]="showPass ? 'text' : 'password'">
                 <mat-icon matSuffix>lock</mat-icon>
+                <mat-error *ngIf="loginForm.controls['password'].errors?.['minLength']">
+                    Password length has to be at least 5 characters 
+                </mat-error>
+                <mat-error *ngIf="loginForm.controls['password'].errors?.['required']">
+                    Password enter a password 
+                </mat-error>
             </mat-form-field>
         </p>
-        <button mat-raised-button color="primary">Login</button>
+        <input type="checkbox" (click)="togglePasswordVisibility()">Show Password
+        <button
+            [disabled]="!loginForm.valid"
+            mat-raised-button
+            type="submit"
+            color="primary">
+                Login
+        </button>
+        <div>
+            Create an new account ? <b>Sign Up</b>
+        </div>
+        </form>
     </mat-card>
+    <ng-snotify></ng-snotify>
 </div>

@@ -23,3 +23,15 @@ export interface CardItem {
     desc?: String;
     created_at: Date;
 }
+
+export interface LoginUser {
+    username: string;
+    password: string;
+}
+
+export interface RegisterUser {
+    username: string;
+    email: string;
+    password1: string;
+    password2: string;
+}
