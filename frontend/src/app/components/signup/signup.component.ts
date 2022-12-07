@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { catchError, map, tap, throwError } from 'rxjs';
 import { AppHttpService } from 'src/app/services/apphttp.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -15,9 +17,9 @@ export class SignUpComponent implements OnInit {
   showPass: boolean = false;
 
   constructor(
-    private http: AppHttpService,
+    private userService: UserService,
     private fb: FormBuilder,
-    private notification: NotificationService
+    private router: Router
   ) {
     this.signUpForm = this.fb.group({
       username: new FormControl('rk5', [Validators.required]),
@@ -43,30 +45,9 @@ export class SignUpComponent implements OnInit {
 
   signUp(): void {
     if (this.signUpForm.value) {
-      this.http
-        .post(`signup/`, this.signUpForm.value)
-        .pipe(
-          tap((res) => {
-            console.log('RESPONSE', res);
-          }),
-          catchError((errRes) =>
-            throwError(() => {
-              const error = errRes.error;
-              if (error.username) {
-                this.notification.errorNotification(error.username);
-              } else if (error.email) {
-                this.notification.errorNotification(error.email);
-              } else if (error.password1) {
-                this.notification.errorNotification(error.password1);
-              } else if (error.password2) {
-                this.notification.errorNotification(error.password2);
-              } else {
-                this.notification.errorNotification('Something went wrong');
-              }
-            })
-          )
-        )
-        .subscribe((res) => console.log('END RES: ', res));
+      this.userService.signUp(this.signUpForm.value).subscribe((res) => {
+        this.router.navigate(['home']);
+      });
     }
   }
 
