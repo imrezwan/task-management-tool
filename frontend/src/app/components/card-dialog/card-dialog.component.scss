@@ -1,0 +1,64 @@
+$button-primary: #0079bf;
+
+.container-main {
+    .header {
+        .title-section {
+            display: flex;
+
+            mat-icon {
+                font-size: 28px;
+                margin-right: 10px;
+            }
+            h4 {
+
+            }
+        }
+        p {
+
+        }
+    }
+    .description-section {
+
+        .description-title {
+            display: flex;
+            mat-icon {
+                font-size: 22px;
+                margin-right: 10px;
+            }
+        }
+
+        .desciption-content {
+            background-color: rgb(242, 242, 242);
+            padding: 10px;
+        }
+    }
+
+    .comment-section {
+
+        .comment-title {
+            display: flex;
+            mat-icon {
+                font-size: 22px;
+                margin-right: 10px;
+            }
+        }
+
+        .comment-content {
+            padding: 10px;
+
+            .comment-input {
+
+                .add-comment-button {
+                    background-color: $button-primary;
+                    color: white;
+                    margin-top: 10px;
+                }
+                input {
+                    min-height: 80px;
+                    padding: 10px;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

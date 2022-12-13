@@ -4,6 +4,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AppHttpService } from 'src/app/services/apphttp.service';
 import {
@@ -12,6 +13,7 @@ import {
 } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
 import { Board, CardItem, ListItem } from 'src/app/tmt.interface';
+import { CardDialogComponent } from '../card-dialog/card-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -35,9 +37,9 @@ export class HomeComponent implements OnInit {
     private http: AppHttpService,
     private notification: NotificationService,
     private userService: UserService,
-    private router: Router
-  ) {
-  }
+    private router: Router,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.http.get(`board/${this.boardId}/`).subscribe((board: any) => {
@@ -47,7 +49,7 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    this.userService.getCurrentUser().subscribe(res => {
+    this.userService.getCurrentUser().subscribe((res) => {
       this.username = res.username;
     });
   }
@@ -227,8 +229,16 @@ export class HomeComponent implements OnInit {
 
   logOut(): void {
     this.userService.logOut();
-    this.userService.token = "";
+    this.userService.token = '';
     this.router.navigate(['signin']);
-    console.log("NAVIGATE TO SIGNIN")
+    console.log('NAVIGATE TO SIGNIN');
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(CardDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

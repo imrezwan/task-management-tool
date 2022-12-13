@@ -20,9 +20,11 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { SignInComponent } from './components/signin/signin.component';
 import { SignUpComponent } from './components/signup/signup.component';
 import { IsAuthenticated } from './services/auth.guard';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CardDialogComponent } from './components/card-dialog/card-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, SignUpComponent, SignInComponent],
+  declarations: [AppComponent, HomeComponent, SignUpComponent, SignInComponent, CardDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -39,6 +41,7 @@ import { IsAuthenticated } from './services/auth.guard';
     MatFormFieldModule,
     MatInputModule,
     SnotifyModule,
+    MatDialogModule,
   ],
   providers: [
     IsAuthenticated,
