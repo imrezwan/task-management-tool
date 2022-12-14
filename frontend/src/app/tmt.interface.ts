@@ -35,3 +35,9 @@ export interface RegisterUser {
     password1: string;
     password2: string;
 }
+
+export interface Comment {
+    comment: string;
+    commenter_name: string;
+    created_at: Date;
+}

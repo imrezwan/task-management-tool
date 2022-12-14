@@ -48,6 +48,10 @@ $button-primary: #0079bf;
                 font-weight: normal;
                 caret-color: auto;
             }
+
+            .carditem-container:hover {
+                background-color: rgb(245, 244, 244);
+            }
         }
 
         .add-card-dialog {

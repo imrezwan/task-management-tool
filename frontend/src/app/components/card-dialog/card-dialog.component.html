@@ -3,18 +3,18 @@
     <div class="header">
         <div class="title-section">
             <mat-icon>home</mat-icon>
-            <h4>BE - Comment Functionality in BE Endpoint</h4>
+            <h4>{{data.cardItem.name}}</h4>
         </div>
-        <p>in list <span><u>To Do</u></span></p>
+        <p>in list <span><u>{{data.listName}}</u></span></p>
     </div>
     <div class="description-section">
         <div class="description-title">
             <mat-icon>subject</mat-icon>
             <p><b> Description</b></p>
         </div>
-        <p class="desciption-content">This example contains tests. Open in Stackblitz to run the tests.</p>
+        <p class="desciption-content">{{data.cardItem.desc}}</p>
     </div>
-
+<mat-dialog-content>
     <div class="comment-section">
         <div class="comment-title">
             <mat-icon>comment</mat-icon>
@@ -24,15 +24,29 @@
             <div class="comment-input">
                 <input type="text" [(ngModel)]="commentValue" /> 
                 <button
+                    (click)="postComment()"
                     mat-flat-button
                     class="add-comment-button"
                     type="button">
                     Post
                 </button>
             </div>
+
+            <div class="all-comments">
+                <div
+                    *ngFor="let commentItem of comments"
+                    class="single-comment">
+                    <p class="commenter"><b>{{commentItem.commenter_name}}</b><span style="margin-left: 8px">{{commentItem.timeframe}}</span></p>
+                    <mat-card>
+                        <p>{{commentItem.comment}}</p>
+                    </mat-card>
+                    <hr>
+                </div>
+            </div>
             
         </div>
     </div>
+</mat-dialog-content>
 
 
 

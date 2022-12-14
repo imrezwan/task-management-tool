@@ -19,6 +19,9 @@ export class UserService {
     private notification: NotificationService
   ) {
     this.token = this.storage.get('token');
+    if (!!this.token) {
+      this.getCurrentUser().subscribe();
+    }
   }
 
   getCurrentUser() {

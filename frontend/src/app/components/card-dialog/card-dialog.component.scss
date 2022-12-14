@@ -1,6 +1,8 @@
 $button-primary: #0079bf;
 
 .container-main {
+    width: 40vw;
+
     .header {
         .title-section {
             display: flex;
@@ -57,6 +59,17 @@ $button-primary: #0079bf;
                     min-height: 80px;
                     padding: 10px;
                     width: 100%;
+                }
+            }
+
+            .single-comment {
+                .commenter {
+                    margin-bottom: 5px;
+                    margin-top: 15px;
+                }
+
+                mat-card {
+                    background-color: rgb(241, 241, 241);
                 }
             }
         }

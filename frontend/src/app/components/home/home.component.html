@@ -32,6 +32,7 @@
                         cdkDrag
                         class="carditem-container"
                         *ngFor="let carditem of listitem.carditems"
+                        (click)="openDialog(listitem.name, carditem)"
                         >
                         <div>{{carditem.name}}</div>
                     </div>

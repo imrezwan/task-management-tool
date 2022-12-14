@@ -49,8 +49,8 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    this.userService.getCurrentUser().subscribe((res) => {
-      this.username = res.username;
+    this.userService.user$.subscribe((user:any) => {
+      this.username = user.username;
     });
   }
 
@@ -234,8 +234,10 @@ export class HomeComponent implements OnInit {
     console.log('NAVIGATE TO SIGNIN');
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(CardDialogComponent);
+  openDialog(listName: string, cardItem: CardItem) {
+    const dialogRef = this.dialog.open(CardDialogComponent, {
+      data: { listName: listName, cardItem: cardItem }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
