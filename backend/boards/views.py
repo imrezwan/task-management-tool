@@ -96,7 +96,7 @@ class UserShow(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     
     def get(self, request, format=None):
-        return Response({'username': request.user.username, 'email': request.user.email})
+        return Response({'username': request.user.username, 'email': request.user.email, 'id': request.user.id })
 
 class CardCommentCreate(generics.CreateAPIView):
     queryset = CardComment.objects.all()
