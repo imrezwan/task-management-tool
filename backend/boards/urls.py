@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import AllCardItemOrderUpdate, BoardCreate, BoardShow, ListItemCreate, ListItemShow, ListItemAll, ListItemOrderUpdate, CardItemCreate, CardItemShow, CardItemAll, CardItemOrderUpdate, UserShow
+from .views import AllCardItemOrderUpdate, BoardCreate, BoardShow, CardCommentAll, CardCommentCreate, ListItemCreate, ListItemShow, ListItemAll, ListItemOrderUpdate, CardItemCreate, CardItemShow, CardItemAll, CardItemOrderUpdate, UserShow
 
 urlpatterns = [
     path('currentuser/', UserShow.as_view()),
@@ -18,4 +18,7 @@ urlpatterns = [
     path('updatecardorder/<int:pk>/', CardItemOrderUpdate.as_view()),
 
     path('inccardorder/<int:list_id>/', AllCardItemOrderUpdate.as_view()),
+
+    path('addcomment/', CardCommentCreate.as_view()),
+    path('comments/<int:card_id>/', CardCommentAll.as_view())
 ]

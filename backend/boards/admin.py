@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Board, ListItem, CardItem
+from .models import Board, CardComment, ListItem, CardItem
 
 class ShowIdAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
@@ -11,6 +11,10 @@ class ListItemAdmin(ShowIdAdmin):
 class CardItemAdmin(ShowIdAdmin):
     pass
 
+class CardCommentAdmin(ShowIdAdmin):
+    pass
+
 admin.site.register(Board, BoardAdmin)
 admin.site.register(ListItem, ListItemAdmin)
 admin.site.register(CardItem, CardItemAdmin)
+admin.site.register(CardComment, CardCommentAdmin)

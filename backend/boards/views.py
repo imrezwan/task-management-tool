@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions
-from .models import Board, CardItem, ListItem
+from .models import Board, CardComment, CardItem, ListItem
 from .permissions import IsOwner
-from .serializers import (BoardSerializer, CardItemSerializer, ListItemSerializer, UserSerializer)
+from .serializers import (BoardSerializer, CardCommentSerializer, CardItemSerializer, ListItemSerializer, UserSerializer)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -98,4 +98,17 @@ class UserShow(APIView):
     def get(self, request, format=None):
         return Response({'username': request.user.username, 'email': request.user.email})
 
+class CardCommentCreate(generics.CreateAPIView):
+    queryset = CardComment.objects.all()
+    serializer_class = CardCommentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
+class CardCommentAll(generics.ListAPIView):
+    queryset = CardComment.objects.all()
+    serializer_class = CardCommentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        cardid = self.kwargs['card_id']
+        queryset = CardComment.objects.filter(carditem=cardid).all()
+        return queryset

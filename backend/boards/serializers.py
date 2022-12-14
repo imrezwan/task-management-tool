@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, ListItem, CardItem, User
+from .models import Board, CardComment, ListItem, CardItem, User
 
 class CardItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,3 +49,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ( 'username', 'email' )
         model = User
+
+class CardCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id', 'comment', 'commenter', 'created_at', 'carditem')
+        model = CardComment
