@@ -51,6 +51,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
 
 class CardCommentSerializer(serializers.ModelSerializer):
+    commenter_name = serializers.CharField(source='commenter.username', read_only=True, default=serializers.CurrentUserDefault())
     class Meta:
-        fields = ('id', 'comment', 'commenter', 'created_at', 'carditem')
+        fields = ('id', 'comment', 'commenter', 'commenter_name', 'created_at', 'carditem')
         model = CardComment
