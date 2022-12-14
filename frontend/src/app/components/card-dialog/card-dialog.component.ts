@@ -13,6 +13,8 @@ import { Comment } from 'src/app/tmt.interface';
 export class CardDialogComponent implements OnInit {
   commentValue: string = '';
   comments: Comment[] = [];
+  canEditCardTitle: boolean = false;
+  canEditCardDesc: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<CardDialogComponent>,
@@ -34,19 +36,41 @@ export class CardDialogComponent implements OnInit {
 
   postComment(): void {
     if (this.commentValue) {
-      
-      this.http.post(`addcomment/`,
-        {
-          "comment": this.commentValue,
-          "commenter": this.userService._user.id,
-          "carditem": this.data.cardItem.id
-        }
-      ).subscribe(comment => {
-        comment.timeframe = moment(comment.created_at).fromNow();
-        this.comments.unshift(comment);
-        this.commentValue = "";
-      });
+      this.http
+        .post(`addcomment/`, {
+          comment: this.commentValue,
+          commenter: this.userService._user.id,
+          carditem: this.data.cardItem.id,
+        })
+        .subscribe((comment) => {
+          comment.timeframe = moment(comment.created_at).fromNow();
+          this.comments.unshift(comment);
+          this.commentValue = '';
+        });
     }
+  }
+
+  editCardTitle(): void {
+    this.canEditCardTitle = true;
+  }
+
+  editCardDesc(): void {
+    this.canEditCardDesc = true;
+  }
+
+  onBlurTitleEdit(): void {
+    this.canEditCardTitle = false;
+    this.http.patch(`cards/${this.data.cardItem?.id}/`, {
+      name: this.data.cardItem.name
+    }).subscribe();
+  }
+
+  onBlurDescEdit(): void {
+    this.canEditCardDesc = false;
+    this.http.patch(`cards/${this.data.cardItem?.id}/`, {
+        desc: this.data.cardItem.desc,
+      })
+      .subscribe();
   }
 }
 
