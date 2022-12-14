@@ -31,10 +31,13 @@
                     <div 
                         cdkDrag
                         class="carditem-container"
-                        *ngFor="let carditem of listitem.carditems"
+                        *ngFor="let carditem of listitem.carditems; index as cardIndex"
                         (click)="openDialog(listitem.name, carditem)"
                         >
-                        <div>{{carditem.name}}</div>
+                        <p>{{carditem.name}}</p>
+                        <button mat-icon-button (click)="deleteCard(listIndex, cardIndex); $event.stopPropagation();">
+                            <mat-icon >delete</mat-icon>
+                        </button>
                     </div>
 
                 </div>

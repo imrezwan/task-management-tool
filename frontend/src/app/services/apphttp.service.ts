@@ -8,10 +8,7 @@ import { StorageService } from './storage.service';
   providedIn: 'root',
 })
 export class AppHttpService {
-  constructor(
-    private http: HttpClient,
-    private storage: StorageService,
-  ) { }
+  constructor(private http: HttpClient, private storage: StorageService) {}
 
   get(url: string, params?: any) {
     return this.http.request('GET', config.api.baseUrl + url, {
@@ -36,6 +33,16 @@ export class AppHttpService {
   patch(url: string, body: any, params: any = {}): Observable<any> {
     return this.http.request('PATCH', config.api.baseUrl + url, {
       body: body,
+      params: new HttpParams({ fromObject: params }),
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: config.api.tokenValue(this.storage.get('token') || ''),
+      }),
+    });
+  }
+
+  delete(url: string, params: any = {}): Observable<any> {
+    return this.http.request('DELETE', config.api.baseUrl + url, {
       params: new HttpParams({ fromObject: params }),
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

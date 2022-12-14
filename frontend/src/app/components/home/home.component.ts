@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    this.userService.user$.subscribe((user:any) => {
+    this.userService.user$.subscribe((user: any) => {
       this.username = user.username;
     });
   }
@@ -236,11 +236,21 @@ export class HomeComponent implements OnInit {
 
   openDialog(listName: string, cardItem: CardItem) {
     const dialogRef = this.dialog.open(CardDialogComponent, {
-      data: { listName: listName, cardItem: cardItem }
+      data: { listName: listName, cardItem: cardItem },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  deleteCard(listIndex: number, cardIndex: number): void {
+    const carditem = this.boardData.listitems[listIndex].carditems[cardIndex];
+    console.dir(carditem)
+
+    this.http.delete(`cards/${carditem.id}/`).subscribe(res => {
+      this.notification.openSnackBar("Successfully deleted the card", NotificationType.SUCCESS);
+      this.boardData.listitems[listIndex].carditems.splice(cardIndex, 1);
     });
   }
 }
