@@ -37,13 +37,19 @@ class BoardSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
     listitems = ListItemSerializer(many=True)
     class Meta:
-        fields = ('id', 'owner', 'name', 'created_at', 'listitems')
+        fields = ('id', 'owner', 'name', 'created_at', 'listitems', 'bg')
         model = Board
     
     def create(self, validated_data):
         validated_data.pop('listitems')
         boardObj = Board.objects.create(**validated_data)
         return boardObj
+
+class BoardSummarySerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+    class Meta:
+        fields = ('id', 'owner', 'name', 'created_at', 'updated_at', 'bg')
+        model = Board
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

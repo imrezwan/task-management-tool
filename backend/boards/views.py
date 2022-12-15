@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions
 from .models import Board, CardComment, CardItem, ListItem
 from .permissions import IsOwner
-from .serializers import (BoardSerializer, CardCommentSerializer, CardItemSerializer, ListItemSerializer, UserSerializer)
+from .serializers import (BoardSerializer, BoardSummarySerializer, CardCommentSerializer, CardItemSerializer, ListItemSerializer, UserSerializer)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,10 +12,18 @@ class BoardCreate(generics.CreateAPIView):
     serializer_class = BoardSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-class BoardShow(generics.RetrieveAPIView):
+class BoardShow(generics.RetrieveUpdateAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwner)
+
+class BoardAllShow(generics.ListAPIView):
+    serializer_class = BoardSummarySerializer
+    permission_classes = (permissions.IsAuthenticated, IsOwner)
+
+    def get_queryset(self):
+        queryset = Board.objects.filter(owner = self.request.user.id)
+        return queryset
 
 class ListItemCreate(generics.CreateAPIView):
     queryset = ListItem.objects.all()
