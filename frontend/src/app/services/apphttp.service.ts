@@ -20,12 +20,16 @@ export class AppHttpService {
   }
 
   post(url: string, body: any, params: any = {}): Observable<any> {
+    const token =
+      this.storage.get('token') &&
+      config.api.tokenValue(this.storage.get('token'));
+
     return this.http.request('POST', config.api.baseUrl + url, {
       body: body,
       params: new HttpParams({ fromObject: params }),
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: 'Token 6d1837911dbfb85218ed15dbf1319a2bebe86066',
+        ...(token && { Authorization: token }),
       }),
     });
   }
