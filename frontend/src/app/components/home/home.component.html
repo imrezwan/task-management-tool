@@ -7,11 +7,18 @@
             <button mat-raised-button (click)="createBoard()" color="accent" type="button" style="margin-left:.25em">Create Board</button>
         </div>
         <div class="toolbar-right">
-            <div *ngIf="username">
-                <b style="margin-right: 15px;">Hello, {{username}}</b>
-                <button (click)="logOut()" mat-raised-button color="warn" type="button" style="margin-left:.25em">Logout</button>
+            <div class="profile-pic"
+                *ngIf="userprofile">
+                <div *ngIf="userprofile.profile_image">
+                    <img src="api/v1/profile/{{userprofile.profile_image}}"/>
+                </div>
+                <div *ngIf="!userprofile.profile_image">
+                    <p class="gen-profile-pic"
+                        [style.background]="profileTextBg"
+                    ><b>{{userprofile.username | slice : 0:1 | titlecase}}</b></p>
+                </div>
             </div>
-            
+            <button (click)="logOut()" mat-raised-button color="warn" type="button" style="margin-left:.25em">Logout</button>
         </div>
     </div>
     <div class="board-header">

@@ -41,8 +41,9 @@ export class HomeComponent implements OnInit {
   canEditListTitle: boolean[] = [];
   boardId: number = 2;
   boardBg: string = '';
-  username: string = '';
+  userprofile: any = {};
   boardNameValue: string = '';
+  profileTextBg: string = '';
 
   constructor(
     private http: AppHttpService,
@@ -84,8 +85,13 @@ export class HomeComponent implements OnInit {
       }
     );
 
-    this.userService.user$.subscribe((user: any) => {
-      this.username = user.username;
+    this.retrieveUserProfile();
+  }
+
+  retrieveUserProfile(): void {
+    this.userService.getUserProfile().subscribe((profile:any) => {
+      this.userprofile = profile;
+      this.profileTextBg = ColorHelper.stringToHexColor(profile.username);
     });
   }
 

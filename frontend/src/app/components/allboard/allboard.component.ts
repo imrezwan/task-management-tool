@@ -16,6 +16,8 @@ import { CreateBoardComponent } from '../create-board/create-board.component';
 export class AllboardComponent implements OnInit {
   username: string = '';
   allboard: any = [];
+  userprofile: any = {};
+  profileTextBg: string = '';
 
   constructor(
     private userService: UserService,
@@ -29,6 +31,7 @@ export class AllboardComponent implements OnInit {
       this.username = user.username;
     });
 
+    this.retrieveUserProfile();
     this.getAllBoard();
   }
 
@@ -55,6 +58,13 @@ export class AllboardComponent implements OnInit {
       item.created = moment(item.created_at).fromNow();
       item.bgStr = ColorHelper.generateGradientBgStr(item.bg || '');
       this.allboard.unshift(item);
+    });
+  }
+
+  retrieveUserProfile(): void {
+    this.userService.getUserProfile().subscribe((profile: any) => {
+      this.userprofile = profile;
+      this.profileTextBg = ColorHelper.stringToHexColor(profile.username);
     });
   }
 }

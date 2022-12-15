@@ -4,7 +4,48 @@ $button-primary: #0079bf;
 .toolbar-container {
     display: flex;
     justify-content: space-between;
-    padding: 0.75em 0em; 
+
+    .toolbar-left {
+        padding: 0.75em 0em;
+    }
+
+    .toolbar-right {
+        display: flex;
+        align-items: center;
+        .profile-pic {
+
+            .gen-profile-pic {
+                font-size: 30px;
+                margin: 0px auto;
+                border: 2px solid black;
+                border-radius: 50px;
+                width: 50px;
+                height: 50px;
+                text-align: center;
+                margin-right: 15px;
+                color: white;
+                text-shadow: 1px 2px 1px black;
+                user-select: none;
+                cursor: pointer;
+            }
+
+            img {
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+                border-radius: 40px;
+                padding: 3px;
+                border: 2px solid ;
+                margin-right: 15px;
+            }
+        }
+
+        button {
+            height: 35px;
+            margin-top: 5px;
+            margin-right: 10px;
+        }
+    }
 }
 
 .board-header {

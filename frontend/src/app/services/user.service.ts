@@ -33,6 +33,10 @@ export class UserService {
     );
   }
 
+  getUserProfile() {
+    return this.http.get(`profile/`);
+  }
+
   login(user: LoginUser) {
     return this.http.post(`rest-auth/login/`, user).pipe(
       tap((res) => {

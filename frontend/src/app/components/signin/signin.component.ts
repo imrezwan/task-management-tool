@@ -37,7 +37,7 @@ export class SignInComponent implements OnInit {
       this.userService.login(this.loginForm.value).subscribe((res) => {
         console.log("LOGIN BACK", res, this.userService.isAuthenticated())
 
-        this.router.navigate(['home']);
+        this.router.navigate(['allboards']);
       });
     }
   }
