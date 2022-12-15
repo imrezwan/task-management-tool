@@ -18,6 +18,7 @@ import { Board, CardItem, ListItem } from 'src/app/tmt.interface';
 import { CardDialogComponent } from '../card-dialog/card-dialog.component';
 import { ChangebgDialogComponent } from '../changebg-dialog/changebg-dialog.component';
 import { ConfirmdialogComponent } from '../confirmdialog/confirmdialog.component';
+import { CreateBoardComponent } from '../create-board/create-board.component';
 
 @Component({
   selector: 'app-home',
@@ -50,7 +51,11 @@ export class HomeComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
@@ -66,7 +71,7 @@ export class HomeComponent implements OnInit {
         );
         for (var i = 0; i < this.boardData.listitems.length; i++) {
           this.addCardBtnVisibility.push(true);
-          this.canEditListTitle.push(false)
+          this.canEditListTitle.push(false);
         }
       },
       (error) => {
@@ -84,7 +89,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  createBoard(): void {}
+  createBoard(): void {
+    const dialogRef = this.dialog.open(CreateBoardComponent);
+
+    dialogRef.afterClosed().subscribe((item) => {
+      this.router.navigate(['boards', item.id]);
+    });
+  }
 
   toggleCardButtonVisibility(idx: number) {
     this.addCardBtnVisibility[idx] = !this.addCardBtnVisibility[idx];
@@ -276,11 +287,10 @@ export class HomeComponent implements OnInit {
 
   deleteCard(listIndex: number, cardIndex: number): void {
     const dialogRef = this.dialog.open(ConfirmdialogComponent, {
-      data: { deleteItemName: "Card" },
+      data: { deleteItemName: 'Card' },
     });
 
     dialogRef.afterClosed().subscribe((isConfirmed) => {
-      console.log(isConfirmed, typeof(isConfirmed));
       if (isConfirmed) {
         const carditem =
           this.boardData.listitems[listIndex].carditems[cardIndex];

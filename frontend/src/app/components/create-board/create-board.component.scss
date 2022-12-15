@@ -1,0 +1,47 @@
+.container {
+    width: 25vw;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    .background-section {
+        .background-title {
+            font-size: 20px;
+            margin-top: 25px;
+        }
+
+        .color-container {
+            display: grid;
+            grid-template-columns: auto auto auto auto;
+            box-sizing: border-box;
+            width: 25vw;
+
+            .single-color {
+                margin: 10px;
+                height: 50px;
+                width: 70px;
+                padding: 4px;
+                user-select: none;
+
+
+                mat-icon {
+                    font-size: 35px;
+                    height: 100%;
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+
+            .single-color:hover {
+                opacity: .8;
+            }
+        }
+    }
+
+    .create-board-btn {
+        margin: 15px auto;
+        display: block;
+        width: 80px;
+    }
+}

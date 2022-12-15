@@ -1,0 +1,33 @@
+<div class="container">
+    <h4>Create New Board</h4>
+    <hr>
+    <mat-form-field appearance="outline">
+        <mat-label>Board Title</mat-label>
+        <input matInput [formControl]="boardTitleControl" placeholder="Enter board title" type="text">
+        <mat-icon matSuffix>title</mat-icon>
+        <mat-error *ngIf="boardTitleControl.errors?.['required']">
+            Please enter board title
+        </mat-error>
+    </mat-form-field>
+    <div class="background-section">
+        <h4 class="background-title">Background</h4>
+        <div class="color-container">
+            <mat-card
+                (click)="selectionChange(bgIndex)"
+                *ngFor="let bg of bgGradients; index as bgIndex"
+                [style.background]="bg"
+                class="single-color">
+                <mat-icon *ngIf="colorPalette[bgIndex] == selectedColor">check</mat-icon>
+            </mat-card>
+        </div>
+    </div>
+    <button
+        (click)="createBoard()"
+        [disabled]="!boardTitleControl.valid || !selectedColor"
+        class="create-board-btn"
+        mat-raised-button color="primary"
+        >
+        Create
+    </button>
+
+</div>

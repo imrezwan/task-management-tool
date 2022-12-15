@@ -26,6 +26,7 @@ import { CardDialogComponent } from './components/card-dialog/card-dialog.compon
 import { AllboardComponent } from './components/allboard/allboard.component';
 import { ChangebgDialogComponent } from './components/changebg-dialog/changebg-dialog.component';
 import { ConfirmdialogComponent } from './components/confirmdialog/confirmdialog.component';
+import { CreateBoardComponent } from './components/create-board/create-board.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ConfirmdialogComponent } from './components/confirmdialog/confirmdialog
     AllboardComponent,
     ChangebgDialogComponent,
     ConfirmdialogComponent,
+    CreateBoardComponent,
   ],
   imports: [
     BrowserModule,

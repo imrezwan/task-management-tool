@@ -3,7 +3,7 @@
     <div class="toolbar-container">
         <div class="toolbar-left">
             <button mat-button type="button" label="Task Mangement Tool" style="font-weight: bold; font-size: 1.25rem;">Task Mangement Tool</button>
-            <button mat-raised-button color="accent" type="button" style="margin-left:.25em">Create Board</button>
+            <button (click)="openCreateBoardDialog()" mat-raised-button color="accent" type="button" style="margin-left:.25em">Create Board</button>
         </div>
         <div class="toolbar-right">
             <div *ngIf="username">
@@ -21,7 +21,7 @@
                 <mat-card
                     [style.background]="board.bgStr">
                     <h4>{{board.name}}</h4>
-                    <p>Last updated: {{board.updated}}</p>
+                    <p>Created: {{board.created}}</p>
                 </mat-card>
             </a>
         </div>
