@@ -178,7 +178,7 @@ export class HomeComponent implements OnInit {
         if (curIdx === allDroppedListCardItems.length) {
           // last insert
           allDraggedListCardItems[prevIdx].order =
-            allDroppedListCardItems[curIdx].order +
+            4096 +
             allDraggedListCardItems[prevIdx].order;
         } else if (curIdx === 0) {
           // first insert
