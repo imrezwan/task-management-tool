@@ -351,15 +351,22 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((isConfirmed) => {
       if (isConfirmed) {
-          const listItem = this.boardData.listitems[listIndex];
-          this.http.delete(`lists/${listItem.id}/`).subscribe((res) => {
-            this.notification.openSnackBar(
-              'Successfully deleted the list',
-              NotificationType.SUCCESS
-            );
-            this.boardData.listitems.splice(listIndex, 1);
-          });
+        const listItem = this.boardData.listitems[listIndex];
+        this.http.delete(`lists/${listItem.id}/`).subscribe((res) => {
+          this.notification.openSnackBar(
+            'Successfully deleted the list',
+            NotificationType.SUCCESS
+          );
+          this.boardData.listitems.splice(listIndex, 1);
+        });
       }
     });
+  }
+
+  deleteBoard(): void {
+    this.http.delete(`board/${this.boardId}/`).subscribe(res => {
+      this.notification.openSnackBar("Successfully deleted the board !", NotificationType.SUCCESS);
+      this.router.navigate(['allboards/']);
+    })
   }
 }
