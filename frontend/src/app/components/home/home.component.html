@@ -48,7 +48,23 @@
                 class="listitem-container"
                 *ngFor="let listitem of boardData.listitems; index as listIndex"
                 >
-                <p><b>{{listitem.name}}</b></p>
+                <div class="list-title-secton">
+                    <input
+                        (blur)="onBlurListTitleEdit(listIndex)"
+                        type="text"
+                        [ngClass]="canEditListTitle[listIndex]? '': 'noneditable'"
+                        [(ngModel)]="listitem.name"
+                    />
+                    <button mat-icon-button
+                        [matMenuTriggerFor]="listMenu" #menuTrigger
+                        >
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #listMenu="matMenu">
+                        <button mat-menu-item (click)="renameList(listIndex)">Rename List</button>
+                        <button mat-menu-item (click)="deleteList(listIndex)" >Delete List</button>
+                    </mat-menu>
+                </div>
                 <div
                     cdkDropList
                     [cdkDropListData]="listitem"

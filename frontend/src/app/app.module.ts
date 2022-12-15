@@ -25,6 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CardDialogComponent } from './components/card-dialog/card-dialog.component';
 import { AllboardComponent } from './components/allboard/allboard.component';
 import { ChangebgDialogComponent } from './components/changebg-dialog/changebg-dialog.component';
+import { ConfirmdialogComponent } from './components/confirmdialog/confirmdialog.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ChangebgDialogComponent } from './components/changebg-dialog/changebg-d
     CardDialogComponent,
     AllboardComponent,
     ChangebgDialogComponent,
+    ConfirmdialogComponent,
   ],
   imports: [
     BrowserModule,

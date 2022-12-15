@@ -1,0 +1,17 @@
+h4 {
+    font-weight: bold;
+}
+
+.action-buttons {
+    > * {
+        color: white;
+    }
+
+    .no-button {
+        background-color: rgb(229, 100, 100);
+    }
+
+    .yes-button {
+        background-color: rgb(56, 177, 130);
+    }
+}

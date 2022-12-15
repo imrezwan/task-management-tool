@@ -17,6 +17,7 @@ import { UserService } from 'src/app/services/user.service';
 import { Board, CardItem, ListItem } from 'src/app/tmt.interface';
 import { CardDialogComponent } from '../card-dialog/card-dialog.component';
 import { ChangebgDialogComponent } from '../changebg-dialog/changebg-dialog.component';
+import { ConfirmdialogComponent } from '../confirmdialog/confirmdialog.component';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
   draggedListId!: Number;
   addListBtnVisibility: Boolean = true;
   canEditBoardTitle: boolean = false;
+  canEditListTitle: boolean[] = [];
   boardId: number = 2;
   boardBg: string = '';
   username: string = '';
@@ -64,6 +66,7 @@ export class HomeComponent implements OnInit {
         );
         for (var i = 0; i < this.boardData.listitems.length; i++) {
           this.addCardBtnVisibility.push(true);
+          this.canEditListTitle.push(false)
         }
       },
       (error) => {
@@ -272,14 +275,24 @@ export class HomeComponent implements OnInit {
   }
 
   deleteCard(listIndex: number, cardIndex: number): void {
-    const carditem = this.boardData.listitems[listIndex].carditems[cardIndex];
+    const dialogRef = this.dialog.open(ConfirmdialogComponent, {
+      data: { deleteItemName: "Card" },
+    });
 
-    this.http.delete(`cards/${carditem.id}/`).subscribe((res) => {
-      this.notification.openSnackBar(
-        'Successfully deleted the card',
-        NotificationType.SUCCESS
-      );
-      this.boardData.listitems[listIndex].carditems.splice(cardIndex, 1);
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      console.log(isConfirmed, typeof(isConfirmed));
+      if (isConfirmed) {
+        const carditem =
+          this.boardData.listitems[listIndex].carditems[cardIndex];
+
+        this.http.delete(`cards/${carditem.id}/`).subscribe((res) => {
+          this.notification.openSnackBar(
+            'Successfully deleted the card',
+            NotificationType.SUCCESS
+          );
+          this.boardData.listitems[listIndex].carditems.splice(cardIndex, 1);
+        });
+      }
     });
   }
 
@@ -306,6 +319,37 @@ export class HomeComponent implements OnInit {
       this.boardBg = ColorHelper.generateGradientBgStr(
         this.boardData?.bg ? this.boardData?.bg : '#dfdfdf'
       );
+    });
+  }
+
+  onBlurListTitleEdit(listIndex: number): void {
+    this.canEditListTitle[listIndex] = false;
+
+    this.http.patch(`lists/${this.boardData.listitems[listIndex].id}/`, {
+      name: this.boardData.listitems[listIndex].name,
+    }).subscribe();
+  }
+
+  renameList(listIndex: number): void {
+    this.canEditListTitle = this.canEditListTitle.map((_, index) => listIndex === index);
+  }
+
+  deleteList(listIndex: number): void {
+    const dialogRef = this.dialog.open(ConfirmdialogComponent, {
+      data: { deleteItemName: "List" },
+    });
+
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+          const listItem = this.boardData.listitems[listIndex];
+          this.http.delete(`lists/${listItem.id}/`).subscribe((res) => {
+            this.notification.openSnackBar(
+              'Successfully deleted the list',
+              NotificationType.SUCCESS
+            );
+            this.boardData.listitems.splice(listIndex, 1);
+          });
+      }
     });
   }
 }
