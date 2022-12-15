@@ -11,8 +11,8 @@ class BoardCreate(generics.CreateAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
     permission_classes = (permissions.IsAuthenticated,)
-
-class BoardShow(generics.RetrieveUpdateAPIView):
+    
+class BoardShow(generics.RetrieveUpdateDestroyAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwner)
@@ -22,7 +22,7 @@ class BoardAllShow(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwner)
 
     def get_queryset(self):
-        queryset = Board.objects.filter(owner = self.request.user.id)
+        queryset = Board.objects.filter(owner = self.request.user.id).order_by('-created_at')
         return queryset
 
 class ListItemCreate(generics.CreateAPIView):

@@ -34,7 +34,7 @@ class ListItemSerializer(serializers.ModelSerializer):
 
 
 class BoardSerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
     listitems = ListItemSerializer(many=True)
     class Meta:
         fields = ('id', 'owner', 'name', 'created_at', 'listitems', 'bg')
@@ -46,7 +46,7 @@ class BoardSerializer(serializers.ModelSerializer):
         return boardObj
 
 class BoardSummarySerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         fields = ('id', 'owner', 'name', 'created_at', 'updated_at', 'bg')
         model = Board
