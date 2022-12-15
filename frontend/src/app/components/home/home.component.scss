@@ -16,12 +16,15 @@ $button-primary: #0079bf;
     height: 50px;
     box-shadow: 1px 1px 2px 2px #10528d;
     margin: 2px;
+    display: flex;
+    justify-content: space-between;
 
     input[type=text] {
         font-weight: bold;
         font-size: 20px;
         text-decoration: none;
         cursor: pointer;
+
     }
 }
 

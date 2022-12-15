@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -23,9 +24,18 @@ import { IsAuthenticated } from './services/auth.guard';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CardDialogComponent } from './components/card-dialog/card-dialog.component';
 import { AllboardComponent } from './components/allboard/allboard.component';
+import { ChangebgDialogComponent } from './components/changebg-dialog/changebg-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, SignUpComponent, SignInComponent, CardDialogComponent, AllboardComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    SignUpComponent,
+    SignInComponent,
+    CardDialogComponent,
+    AllboardComponent,
+    ChangebgDialogComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -43,6 +53,7 @@ import { AllboardComponent } from './components/allboard/allboard.component';
     MatInputModule,
     SnotifyModule,
     MatDialogModule,
+    MatMenuModule,
   ],
   providers: [
     IsAuthenticated,

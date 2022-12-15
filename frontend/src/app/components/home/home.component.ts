@@ -3,9 +3,11 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ColorHelper } from 'src/app/color-helper.utils';
 import { AppHttpService } from 'src/app/services/apphttp.service';
 import {
   NotificationService,
@@ -14,6 +16,7 @@ import {
 import { UserService } from 'src/app/services/user.service';
 import { Board, CardItem, ListItem } from 'src/app/tmt.interface';
 import { CardDialogComponent } from '../card-dialog/card-dialog.component';
+import { ChangebgDialogComponent } from '../changebg-dialog/changebg-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +24,8 @@ import { CardDialogComponent } from '../card-dialog/card-dialog.component';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('menuTrigger') menuTrigger!: MatMenuTrigger;
+
   visibleSidebar!: boolean;
   addCardBtnVisibility: boolean[] = [];
   boardData!: Board;
@@ -32,6 +37,7 @@ export class HomeComponent implements OnInit {
   addListBtnVisibility: Boolean = true;
   canEditBoardTitle: boolean = false;
   boardId: number = 2;
+  boardBg: string = '';
   username: string = '';
   boardNameValue: string = '';
 
@@ -53,6 +59,9 @@ export class HomeComponent implements OnInit {
       (board: any) => {
         this.boardData = board;
         this.boardNameValue = board.name;
+        this.boardBg = ColorHelper.generateGradientBgStr(
+          this.boardData?.bg ? this.boardData?.bg : '#dfdfdf'
+        );
         for (var i = 0; i < this.boardData.listitems.length; i++) {
           this.addCardBtnVisibility.push(true);
         }
@@ -280,8 +289,23 @@ export class HomeComponent implements OnInit {
 
   onBlurBoardTitleEdit(): void {
     this.canEditBoardTitle = false;
-    this.http.patch(`board/${this.boardId}/`, {
-      "name": this.boardNameValue
-    }).subscribe();
+    this.http
+      .patch(`board/${this.boardId}/`, {
+        name: this.boardNameValue,
+      })
+      .subscribe();
+  }
+
+  changeBackground(): void {
+    const dialogRef = this.dialog.open(ChangebgDialogComponent, {
+      data: { boardId: this.boardId, bg: this.boardData.bg },
+    });
+
+    dialogRef.afterClosed().subscribe((newBg) => {
+      this.boardData.bg = newBg;
+      this.boardBg = ColorHelper.generateGradientBgStr(
+        this.boardData?.bg ? this.boardData?.bg : '#dfdfdf'
+      );
+    });
   }
 }

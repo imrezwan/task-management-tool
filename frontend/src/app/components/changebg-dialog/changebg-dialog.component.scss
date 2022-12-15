@@ -1,0 +1,29 @@
+.container {
+    text-align: center;
+}
+
+.color-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    box-sizing: border-box;
+    width: 25vw;
+
+    .single-color {
+        margin: 10px;
+        height: 50px;
+        width: 70px;
+        padding: 4px;
+        user-select: none;
+
+
+        mat-icon {
+            font-size: 35px;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .single-color:hover {
+        opacity: .8;
+    }
+}

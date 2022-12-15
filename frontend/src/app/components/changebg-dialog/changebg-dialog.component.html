@@ -1,0 +1,12 @@
+<div class="container">
+    <h4>Change Background</h4>
+    <div class="color-container">
+        <mat-card
+            (click)="selectionChange(bgIndex)"
+            *ngFor="let bg of bgGradients; index as bgIndex"
+            [style.background]="bg"
+            class="single-color">
+            <mat-icon *ngIf="colorPalette[bgIndex] == selectedColor">check</mat-icon>
+        </mat-card>
+    </div>
+</div>

@@ -23,11 +23,22 @@
             [ngClass]="canEditBoardTitle? '': 'noneditable'"
             type="text"
             [(ngModel)]="boardNameValue"
-            /> 
+            />
+        <button mat-icon-button
+            [matMenuTriggerFor]="menu" #menuTrigger
+            >
+            <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="changeBackground()">Change Background</button>
+            <button mat-menu-item >Add Member</button>
+            <button mat-menu-item >Delete Board</button>
+        </mat-menu>
     </div>
 
     <div cdkDropListGroup class="board-container"
-        [style.backgroundColor]="boardData?.bg ? boardData?.bg :'#dfdfdf' "
+        [style.background]="boardBg"
         >
         <div
             *ngIf="!!boardData"
