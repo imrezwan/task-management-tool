@@ -22,9 +22,10 @@ import { SignUpComponent } from './components/signup/signup.component';
 import { IsAuthenticated } from './services/auth.guard';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CardDialogComponent } from './components/card-dialog/card-dialog.component';
+import { AllboardComponent } from './components/allboard/allboard.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, SignUpComponent, SignInComponent, CardDialogComponent],
+  declarations: [AppComponent, HomeComponent, SignUpComponent, SignInComponent, CardDialogComponent, AllboardComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

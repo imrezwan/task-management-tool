@@ -7,7 +7,7 @@
                 (blur)="onBlurTitleEdit()"
                 class="card-title"
                 type="text"
-                size="40"
+                size="30"
                 [ngClass]="canEditCardTitle? '': 'noneditable'"
                 [(ngModel)]="data.cardItem.name"
                 [disabled]="!canEditCardTitle">

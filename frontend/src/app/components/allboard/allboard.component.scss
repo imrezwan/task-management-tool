@@ -1,0 +1,42 @@
+.toolbar-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75em 0em;
+    background-color: white;
+
+    .toolbar-right {
+        margin-right: 10px;
+    }
+}
+
+.board-header {
+    background-color: #0079bf;
+    padding: 10px;
+    margin: 0px;
+    padding-left: 40px;
+    color: rgb(231, 231, 231);
+    height: 50px;
+}
+
+.container {
+    background-color: #a4c2da;
+    height: 100vh;
+    padding: 0px;
+}
+
+.allboard-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+
+    .single-board {
+        margin: 10px;
+        a {
+            text-decoration: none;
+            mat-card {
+                color: white;
+            }
+
+        }
+    }
+}

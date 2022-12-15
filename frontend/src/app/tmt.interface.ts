@@ -4,6 +4,7 @@ export interface Board {
     name: String;
     owner: number;
     listitems: ListItem[];
+    bg: string;
     created_at: Date;
 }
 

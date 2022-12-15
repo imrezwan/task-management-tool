@@ -1,4 +1,4 @@
-$bgColor: rgb(223, 223, 223);
+$bgColor: #dfdfdf;
 $button-primary: #0079bf;
 
 .toolbar-container {
@@ -7,9 +7,35 @@ $button-primary: #0079bf;
     padding: 0.75em 0em; 
 }
 
+.board-header {
+    background-color: #0079bf;
+    padding: 10px;
+    margin: 0px;
+    padding-left: 40px;
+    color: rgb(231, 231, 231);
+    height: 50px;
+    box-shadow: 1px 1px 2px 2px #10528d;
+    margin: 2px;
+
+    input[type=text] {
+        font-weight: bold;
+        font-size: 20px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+.noneditable {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    text-decoration: underline !important;
+}
+
 .board-container {
     background-color: $bgColor;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 110px);
     padding: 20px;
     display: flex;
     align-items: flex-start;

@@ -21,10 +21,10 @@ export class NotificationService {
     });
   }
 
-  errorNotification(message: string): void {
+  errorNotification(message: string, time: number = 5000): void {
     this.snotifyService.error(
       message,
-      {timeout: 5000}
+      {timeout: time}
     );
   }
 }

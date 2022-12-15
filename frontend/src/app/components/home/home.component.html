@@ -1,21 +1,37 @@
 <div class="container">
+    <ng-snotify></ng-snotify>
     <div class="toolbar-container">
         <div class="toolbar-left">
             <button mat-button type="button" label="Task Mangement Tool" style="font-weight: bold; font-size: 1.25rem;">Task Mangement Tool</button>
-            <button mat-raised-button (click)="createBoard()" color="primary" type="button" style="margin-left:.25em">Create Board</button>
+            <a routerLink="/allboards"><button mat-raised-button color="primary" type="button" style="margin-left:.25em">All Boards</button></a>
+            <button mat-raised-button (click)="createBoard()" color="accent" type="button" style="margin-left:.25em">Create Board</button>
         </div>
         <div class="toolbar-right">
             <div *ngIf="username">
-                {{username}}
+                <b style="margin-right: 15px;">Hello, {{username}}</b>
                 <button (click)="logOut()" mat-raised-button color="warn" type="button" style="margin-left:.25em">Logout</button>
             </div>
             
         </div>
     </div>
+    <div class="board-header">
+        <input 
+            (click)="onClickBoardName()"
+            (blur)="onBlurBoardTitleEdit()"
+            type="text"
+            size="30"
+            [ngClass]="canEditBoardTitle? '': 'noneditable'"
+            type="text"
+            [(ngModel)]="boardNameValue"
+            /> 
+    </div>
 
-    <div cdkDropListGroup class="board-container">
+    <div cdkDropListGroup class="board-container"
+        [style.backgroundColor]="boardData?.bg ? boardData?.bg :'#dfdfdf' "
+        >
         <div
-            *ngIf="!!boardData" 
+            *ngIf="!!boardData"
+            
             class="all-lists-container">
             <div
                 class="listitem-container"

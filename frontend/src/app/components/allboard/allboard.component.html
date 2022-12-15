@@ -1,0 +1,29 @@
+<div class="container">
+    <ng-snotify></ng-snotify>
+    <div class="toolbar-container">
+        <div class="toolbar-left">
+            <button mat-button type="button" label="Task Mangement Tool" style="font-weight: bold; font-size: 1.25rem;">Task Mangement Tool</button>
+            <button mat-raised-button color="accent" type="button" style="margin-left:.25em">Create Board</button>
+        </div>
+        <div class="toolbar-right">
+            <div *ngIf="username">
+                <b style="margin-right: 15px;">Hello, {{username}}</b>
+                <button (click)="logOut()" mat-raised-button color="warn" type="button" style="margin-left:.25em">Logout</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="allboard-container">
+        <div class="single-board"
+            *ngFor="let board of allboard">
+            <a [routerLink]="['/boards', board.id]">
+                <mat-card
+                    [style.backgroundColor]="board.bg ? board.bg :'#686868' ">
+                    <h4>{{board.name}}</h4>
+                    <p>Updated: {{board.updated}}</p>
+                </mat-card>
+            </a>
+        </div>
+    </div>
+</div>

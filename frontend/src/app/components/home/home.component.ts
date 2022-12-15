@@ -5,7 +5,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { AppHttpService } from 'src/app/services/apphttp.service';
 import {
   NotificationService,
@@ -30,24 +30,42 @@ export class HomeComponent implements OnInit {
   draggedCard!: any;
   draggedListId!: Number;
   addListBtnVisibility: Boolean = true;
+  canEditBoardTitle: boolean = false;
   boardId: number = 2;
   username: string = '';
+  boardNameValue: string = '';
 
   constructor(
     private http: AppHttpService,
     private notification: NotificationService,
     private userService: UserService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.http.get(`board/${this.boardId}/`).subscribe((board: any) => {
-      this.boardData = board;
-      for (var i = 0; i < this.boardData.listitems.length; i++) {
-        this.addCardBtnVisibility.push(true);
-      }
+    this.activatedRoute.params.subscribe((params) => {
+      this.boardId = params['id'];
     });
+
+    this.http.get(`board/${this.boardId}/`).subscribe(
+      (board: any) => {
+        this.boardData = board;
+        this.boardNameValue = board.name;
+        for (var i = 0; i < this.boardData.listitems.length; i++) {
+          this.addCardBtnVisibility.push(true);
+        }
+      },
+      (error) => {
+        if (error.status === 403) {
+          this.notification.errorNotification(
+            "You dont' have permission to access this board",
+            10000
+          );
+        }
+      }
+    );
 
     this.userService.user$.subscribe((user: any) => {
       this.username = user.username;
@@ -246,11 +264,24 @@ export class HomeComponent implements OnInit {
 
   deleteCard(listIndex: number, cardIndex: number): void {
     const carditem = this.boardData.listitems[listIndex].carditems[cardIndex];
-    console.dir(carditem)
 
-    this.http.delete(`cards/${carditem.id}/`).subscribe(res => {
-      this.notification.openSnackBar("Successfully deleted the card", NotificationType.SUCCESS);
+    this.http.delete(`cards/${carditem.id}/`).subscribe((res) => {
+      this.notification.openSnackBar(
+        'Successfully deleted the card',
+        NotificationType.SUCCESS
+      );
       this.boardData.listitems[listIndex].carditems.splice(cardIndex, 1);
     });
+  }
+
+  onClickBoardName(): void {
+    this.canEditBoardTitle = true;
+  }
+
+  onBlurBoardTitleEdit(): void {
+    this.canEditBoardTitle = false;
+    this.http.patch(`board/${this.boardId}/`, {
+      "name": this.boardNameValue
+    }).subscribe();
   }
 }

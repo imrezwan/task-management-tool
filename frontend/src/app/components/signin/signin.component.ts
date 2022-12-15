@@ -28,7 +28,7 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.userService.isAuthenticated()) {
-      this.router.navigate(['home']);
+      this.router.navigate(['allboards']);
     }
   }
 
