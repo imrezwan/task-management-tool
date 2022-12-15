@@ -19,9 +19,9 @@
             *ngFor="let board of allboard">
             <a [routerLink]="['/boards', board.id]">
                 <mat-card
-                    [style.backgroundColor]="board.bg ? board.bg :'#686868' ">
+                    [style.background]="board.bgStr">
                     <h4>{{board.name}}</h4>
-                    <p>Updated: {{board.updated}}</p>
+                    <p>Last updated: {{board.updated}}</p>
                 </mat-card>
             </a>
         </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { ColorHelper } from 'src/app/color-helper.utils';
 import { AppHttpService } from 'src/app/services/apphttp.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -27,6 +28,7 @@ export class AllboardComponent implements OnInit {
     this.http.get(`boards/`).subscribe((boards:any) => {
       this.allboard = boards.map((item:any) => {
         item.updated = moment(item.updated_at).fromNow()
+        item.bgStr = ColorHelper.generateGradientBgStr(item.bg || '');
         return item;
       });
     });

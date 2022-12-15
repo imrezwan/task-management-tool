@@ -35,6 +35,11 @@
             text-decoration: none;
             mat-card {
                 color: white;
+
+                h4 {
+                    font-weight: bold;
+                    text-shadow: 0 0 3px black;
+                }
             }
 
         }
