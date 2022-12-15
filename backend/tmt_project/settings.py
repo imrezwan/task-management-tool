@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'request_logging',
 
     'boards',
+    'users',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
