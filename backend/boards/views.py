@@ -142,8 +142,12 @@ class AddNewBoardMember(generics.CreateAPIView):
         boardId = request.data['board_id']
         email = request.data['email']
 
-        board = Board.objects.get(id=boardId)
-        member = UserProfile.objects.get(user__email = email)
+        try:
+            board = Board.objects.get(id=boardId)
+            member = UserProfile.objects.get(user__email = email)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+            
 
         if board.owner != request.user:
             return Response(status=status.HTTP_403_FORBIDDEN)
