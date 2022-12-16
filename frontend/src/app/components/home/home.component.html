@@ -43,6 +43,27 @@
             type="text"
             [(ngModel)]="boardNameValue"
             />
+
+        <div class="member-section">
+            <div
+                *ngFor="let member of boardMembers"
+                class="one-member"
+                data-toggle="tooltip"
+                title="{{member.username}}"
+                >
+
+                <div *ngIf="member.profile_image">
+                    <img src="/api/v1/profile/media/{{member.profile_image}}"/>   
+                </div>
+                <div *ngIf="!member.profile_image">
+                    <p class="gen-member-pic"
+                        [style.background]="member.profileTextBg"
+                    ><b>{{member.username | slice : 0:1 | titlecase}}</b></p>
+                </div>
+
+                
+            </div>
+        </div>
         <button mat-icon-button
             [matMenuTriggerFor]="menu" #menuTrigger
             >

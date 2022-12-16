@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit {
   userprofile: any = {};
   boardNameValue: string = '';
   profileTextBg: string = '';
+  boardMembers: any[] = [];
 
   constructor(
     private http: AppHttpService,
@@ -87,12 +88,22 @@ export class HomeComponent implements OnInit {
     );
 
     this.retrieveUserProfile();
+    this.retrieveBoardMembers();
   }
 
   retrieveUserProfile(): void {
     this.userService.getUserProfile().subscribe((profile:any) => {
       this.userprofile = profile;
       this.profileTextBg = ColorHelper.stringToHexColor(profile.username);
+    });
+  }
+
+  retrieveBoardMembers(): void {
+    this.http.get(`members/${this.boardId}/`).subscribe((members: any) => {
+      this.boardMembers = members.map((item: any) => {
+        item.profileTextBg = ColorHelper.stringToHexColor(item.username);
+        return item;
+      });
     });
   }
 
@@ -342,18 +353,22 @@ export class HomeComponent implements OnInit {
   onBlurListTitleEdit(listIndex: number): void {
     this.canEditListTitle[listIndex] = false;
 
-    this.http.patch(`lists/${this.boardData.listitems[listIndex].id}/`, {
-      name: this.boardData.listitems[listIndex].name,
-    }).subscribe();
+    this.http
+      .patch(`lists/${this.boardData.listitems[listIndex].id}/`, {
+        name: this.boardData.listitems[listIndex].name,
+      })
+      .subscribe();
   }
 
   renameList(listIndex: number): void {
-    this.canEditListTitle = this.canEditListTitle.map((_, index) => listIndex === index);
+    this.canEditListTitle = this.canEditListTitle.map(
+      (_, index) => listIndex === index
+    );
   }
 
   deleteList(listIndex: number): void {
     const dialogRef = this.dialog.open(ConfirmdialogComponent, {
-      data: { deleteItemName: "List" },
+      data: { deleteItemName: 'List' },
     });
 
     dialogRef.afterClosed().subscribe((isConfirmed) => {
@@ -383,7 +398,7 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)
+      console.log(result);
       this.userprofile = result;
     });
   }
