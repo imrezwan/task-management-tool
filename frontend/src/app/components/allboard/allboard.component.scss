@@ -69,8 +69,22 @@
 
 .container {
     background-color: #a4c2da;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
     padding: 0px;
+    min-height: 100vh;
+}
+
+.headline {
+    padding: 10px 30px;
+    background: linear-gradient(175deg, #5aae99, #6e7ea8);
+    color: white;
+    box-shadow: 1px 1px 3px 1px #686769;
+    font-size: 35px;
+}
+
+.headline:nth-child(2) {
+    margin-top: 25px;
 }
 
 .allboard-container {

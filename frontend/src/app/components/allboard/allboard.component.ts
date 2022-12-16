@@ -17,6 +17,7 @@ import { UserprofileComponent } from '../userprofile/userprofile.component';
 export class AllboardComponent implements OnInit {
   username: string = '';
   allboard: any = [];
+  sharedboards: any = [];
   userprofile: any = {};
   profileTextBg: string = '';
 
@@ -34,6 +35,7 @@ export class AllboardComponent implements OnInit {
 
     this.retrieveUserProfile();
     this.getAllBoard();
+    this.getAllSharedBoard();
   }
 
   logOut(): void {
@@ -56,6 +58,16 @@ export class AllboardComponent implements OnInit {
   getAllBoard(): void {
     this.http.get(`boards/`).subscribe((boards: any) => {
       this.allboard = boards.map((item: any) => {
+        item.created = moment(item.created_at).fromNow();
+        item.bgStr = ColorHelper.generateGradientBgStr(item.bg || '');
+        return item;
+      });
+    });
+  }
+
+  getAllSharedBoard(): void {
+    this.http.get(`sharedboards/`).subscribe((boards: any) => {
+      this.sharedboards = boards.map((item: any) => {
         item.created = moment(item.created_at).fromNow();
         item.bgStr = ColorHelper.generateGradientBgStr(item.bg || '');
         return item;

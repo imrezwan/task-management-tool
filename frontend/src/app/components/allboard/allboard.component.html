@@ -34,9 +34,24 @@
         </div>
     </div>
 
+    <h3 class="headline">My Boards</h3>
     <div class="allboard-container">
         <div class="single-board"
             *ngFor="let board of allboard">
+            <a [routerLink]="['/boards', board.id]">
+                <mat-card
+                    [style.background]="board.bgStr">
+                    <h4>{{board.name}}</h4>
+                    <p>Created: {{board.created}}</p>
+                </mat-card>
+            </a>
+        </div>
+    </div>
+
+    <h3 class="headline">Shared Boards</h3>
+    <div class="allboard-container">
+        <div class="single-board"
+            *ngFor="let board of sharedboards">
             <a [routerLink]="['/boards', board.id]">
                 <mat-card
                     [style.background]="board.bgStr">
