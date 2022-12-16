@@ -397,12 +397,20 @@ export class HomeComponent implements OnInit {
   }
 
   deleteBoard(): void {
-    this.http.delete(`board/${this.boardId}/`).subscribe((res) => {
-      this.notification.openSnackBar(
-        'Successfully deleted the board !',
-        NotificationType.SUCCESS
-      );
-      this.router.navigate(['allboards/']);
+    const dialogRef = this.dialog.open(ConfirmdialogComponent, {
+      data: { deleteItemName: 'Board' },
+    });
+
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.http.delete(`board/${this.boardId}/`).subscribe((res) => {
+          this.notification.openSnackBar(
+            'Successfully deleted the board !',
+            NotificationType.SUCCESS
+          );
+          this.router.navigate(['allboards/']);
+        });
+      }
     });
   }
 
