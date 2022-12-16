@@ -28,6 +28,33 @@
 <img alt="ReactJs" src="https://img.shields.io/badge/python-AA2A2C.svg?style=for-the-badge&logo=python&logoColor=F7CB3F"/>
 <img alt="ReactJs" src="https://img.shields.io/badge/django-green.svg?style=for-the-badge&logo=django&logoColor=61DBFB"/>
 
+# <h3> 📌 Getting Started</h3>
+1. Install [Python](https://www.python.org/downloads/), [Yarn](https://classic.yarnpkg.com/en/docs/install/)
+2. Clone the repo
+```
+$ git clone https://github.com/rezwan2525/task-management-tool.git
+$ cd task-management-tool
+```
+3. Install [pipenv](https://pypi.org/project/pipenv/), a python virtual environment manager. Install backend dependencies and run migrations to create database. Default database is SQLite.
+```
+$ cd backend
+$ pipenv install
+$ pipenv shell
+$ python manage.py migrate
+```
+4. Install frontend dependencies.
+```
+$ cd frontend
+$ yarn install
+```
+5. Run both frontend and backend servers with following commands in appropriate directories.
+```
+$ python manage.py runserver
+$ yarn start
+```
+# <h3> 📌 API Documentations</h3>
+After running the backend server, the API doc will be at `http://localhost:8000/docs/`
+
 # <h3> 📌 Screenshots</h3>
 ### **1. All boards**
 ----------------------
