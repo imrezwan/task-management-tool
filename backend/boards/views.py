@@ -1,5 +1,5 @@
 from rest_framework import generics, permissions
-from .models import Board, CardComment, CardItem, ListItem
+from .models import Board, BoardPermission, CardComment, CardItem, ListItem
 from .permissions import IsOwner
 from .serializers import (BoardSerializer, BoardSummarySerializer, CardCommentSerializer, CardItemSerializer, ListItemSerializer, UserSerializer)
 from rest_framework.views import APIView
@@ -23,6 +23,16 @@ class BoardAllShow(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = Board.objects.filter(owner = self.request.user.id).order_by('-created_at')
+        return queryset
+
+        
+class SharedBoardAll(generics.ListAPIView):
+    serializer_class = BoardSummarySerializer
+    permission_classes = (permissions.IsAuthenticated, IsOwner)
+
+    def get_queryset(self):
+        permissionBoardIds = BoardPermission.objects.filter(member=self.request.user).values_list('board__id', flat=True)
+        queryset = Board.objects.filter(id__in=permissionBoardIds).order_by('-created_at')
         return queryset
 
 class ListItemCreate(generics.CreateAPIView):
