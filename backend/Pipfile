@@ -10,6 +10,8 @@ dj-rest-auth = "*"
 django-allauth = "*"
 django-request-logging = "*"
 pillow = "*"
+coreapi = "*"
+pyyaml = "*"
 
 [dev-packages]
 
