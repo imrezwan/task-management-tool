@@ -7,6 +7,7 @@ import { ColorHelper } from 'src/app/color-helper.utils';
 import { AppHttpService } from 'src/app/services/apphttp.service';
 import { UserService } from 'src/app/services/user.service';
 import { CreateBoardComponent } from '../create-board/create-board.component';
+import { UserprofileComponent } from '../userprofile/userprofile.component';
 
 @Component({
   selector: 'app-allboard',
@@ -39,6 +40,17 @@ export class AllboardComponent implements OnInit {
     this.userService.logOut();
     this.userService.token = '';
     this.router.navigate(['signin']);
+  }
+
+  openProfileDialog(): void {
+    const dialogRef = this.dialog.open(UserprofileComponent, {
+      data: this.userprofile,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      this.userprofile = result;
+    });
   }
 
   getAllBoard(): void {

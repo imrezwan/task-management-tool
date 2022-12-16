@@ -8,6 +8,7 @@
         <div class="toolbar-right">
             <div class="toolbar-right">
             <div class="profile-pic"
+                [matMenuTriggerFor]="menuProfile" #menuTrigger
                 *ngIf="userprofile">
                 <div *ngIf="userprofile.profile_image">
                     <img src="api/v1/profile/{{userprofile.profile_image}}"/>
@@ -18,6 +19,16 @@
                     ><b>{{userprofile.username | slice : 0:1 | titlecase}}</b></p>
                 </div>
             </div>
+            <mat-menu #menuProfile="matMenu"
+                class="profile-menu">
+                <div class="profile-menu-header">
+                    <p style="font-weight: bold;margin:0;">@{{userprofile.username}}</p>
+                    <p>{{userprofile.email}}</p>
+                </div>
+                <hr style="margin:0">
+                <button mat-menu-item (click)="openProfileDialog()" >My Profile</button>
+                <button mat-menu-item >Setting</button>
+            </mat-menu>
             <button (click)="logOut()" mat-raised-button color="warn" type="button" style="margin-left:.25em">Logout</button>
         </div>
         </div>
