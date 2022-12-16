@@ -8,6 +8,7 @@ class IsOwner(permissions.BasePermission):
         permissions = BoardPermission.objects.filter(board=obj)
 
         for permission in permissions:
-            if permission.member_id == request.user.id:
+            if permission.member.user.id == request.user.id:
                 return True
         return obj.owner.id == request.user.id
+        

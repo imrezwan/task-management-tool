@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from users.models import UserProfile
 
 class Board(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -56,9 +57,9 @@ class CardComment(models.Model):
 
 class BoardPermission(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
-    member = models.ForeignKey(User, on_delete=models.CASCADE)
+    member = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.member.username + " => " + self.board.name
+        return self.member.user.username + " => " + self.board.name

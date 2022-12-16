@@ -1,7 +1,8 @@
 from rest_framework import generics, permissions
 from .models import Board, BoardPermission, CardComment, CardItem, ListItem
+from users.models import UserProfile
 from .permissions import IsOwner
-from .serializers import (BoardSerializer, BoardSummarySerializer, CardCommentSerializer, CardItemSerializer, ListItemSerializer, UserSerializer)
+from .serializers import (BoardMemberPerformSerializer, BoardSerializer, BoardSummarySerializer, CardCommentSerializer, CardItemSerializer, ListItemSerializer, UserSerializer, BoardMemberSerializer)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -31,7 +32,7 @@ class SharedBoardAll(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwner)
 
     def get_queryset(self):
-        permissionBoardIds = BoardPermission.objects.filter(member=self.request.user).values_list('board__id', flat=True)
+        permissionBoardIds = BoardPermission.objects.filter(member__user_id=self.request.user).values_list('board__id', flat=True)
         queryset = Board.objects.filter(id__in=permissionBoardIds).order_by('-created_at')
         return queryset
 
@@ -129,4 +130,33 @@ class CardCommentAll(generics.ListAPIView):
     def get_queryset(self):
         cardid = self.kwargs['card_id']
         queryset = CardComment.objects.filter(carditem=cardid).all()
+        return queryset
+
+
+class AddNewBoardMember(generics.CreateAPIView):
+    queryset = BoardPermission.objects.all()
+    serializer_class = BoardMemberPerformSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        boardId = request.data['board_id']
+        email = request.data['email']
+
+        board = Board.objects.get(id=boardId)
+        member = UserProfile.objects.get(user__email = email)
+
+        if not BoardPermission.objects.filter(board = board, member = member).exists():
+            object = BoardPermission.objects.create(board = board, member = member)
+            serializer = BoardMemberPerformSerializer(object)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_409_CONFLICT)
+
+class BoardMembersAll(generics.ListAPIView):
+    queryset = BoardPermission.objects.all()
+    serializer_class = BoardMemberSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        boardId = self.kwargs['board_id']
+        queryset = BoardPermission.objects.filter(board_id=boardId)
         return queryset

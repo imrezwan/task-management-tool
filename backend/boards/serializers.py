@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, CardComment, ListItem, CardItem, User
+from .models import Board, BoardPermission, CardComment, ListItem, CardItem, User
 
 class CardItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,3 +61,22 @@ class CardCommentSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('id', 'comment', 'commenter', 'commenter_name', 'created_at', 'carditem')
         model = CardComment
+
+class BoardMemberSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='member.user.username', read_only=True)
+    email = serializers.CharField(source='member.user.email', read_only=True)
+    profile_image = serializers.CharField(source='member.profile_image', read_only=True)
+    class Meta:
+        fields = ('id', 'username', 'profile_image', 'email')
+        model = BoardPermission
+
+
+
+    
+class BoardMemberPerformSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='member.user.username', read_only=True)
+    email = serializers.CharField(source='member.user.email', read_only=True)
+    profile_image = serializers.CharField(source='member.profile_image', read_only=True)
+    class Meta:
+        fields = ('id', 'username', 'profile_image', 'email')
+        model = BoardPermission
