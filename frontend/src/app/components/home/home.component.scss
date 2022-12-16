@@ -40,12 +40,34 @@ $button-primary: #0079bf;
             }
         }
 
+        .profile-pic:hover {
+            opacity: .8;
+            cursor: pointer;
+        }
+
         button {
             height: 35px;
             margin-top: 5px;
             margin-right: 10px;
         }
     }
+}
+
+.profile-menu {
+    padding: 20px;
+}
+
+.profile-menu-header {
+    padding: 0px 10px;
+}
+.profile-username {
+    padding: 0px 10px;
+    font-weight: bold;
+}
+
+:host .mat-menu-content {
+    padding: 0 !important;
+    background: green;
 }
 
 .board-header {

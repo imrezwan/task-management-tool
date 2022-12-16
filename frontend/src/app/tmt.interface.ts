@@ -42,3 +42,10 @@ export interface Comment {
     commenter_name: string;
     created_at: Date;
 }
+
+export interface UserProfile {
+    display_name: string;
+    profile_image: string;
+    username: string;
+    email: string;
+}

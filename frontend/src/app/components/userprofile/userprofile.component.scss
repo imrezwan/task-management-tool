@@ -1,0 +1,85 @@
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    width: 20vw;
+
+    .name {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .username {
+        font-size: 16px;
+        color: #666;
+        margin: 0;
+    }
+
+    mat-icon {
+        position: relative;
+        left: 60px;
+        bottom: 40px;
+        transform: scale(1.2);
+        cursor: pointer;
+    }
+
+    .info {
+        text-align: left;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 35% 65%;
+        margin-top: 10px;
+    }
+
+    input[type=text] {
+        color: black;
+        font-weight: bold;
+        font-size: 25px;
+        text-align: center;
+        background: linear-gradient(180deg, rgb(225, 225, 220), #ADC)
+    }
+
+}
+
+.profile-pic {
+
+    .gen-profile-pic {
+        font-size: 30px;
+        margin: 0px auto;
+        border: 2px solid black;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        text-align: center;
+        margin-right: 15px;
+        color: white;
+        text-shadow: 1px 2px 1px black;
+        user-select: none;
+        cursor: pointer;
+        font-size: 85px;
+    }
+
+    img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 5px;
+        border: 2px solid black;
+    }
+}
+
+.profile-pic:hover {
+    opacity: .8;
+    cursor: pointer;
+}
+
+.noneditable {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+}

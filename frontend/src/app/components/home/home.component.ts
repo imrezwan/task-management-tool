@@ -19,6 +19,7 @@ import { CardDialogComponent } from '../card-dialog/card-dialog.component';
 import { ChangebgDialogComponent } from '../changebg-dialog/changebg-dialog.component';
 import { ConfirmdialogComponent } from '../confirmdialog/confirmdialog.component';
 import { CreateBoardComponent } from '../create-board/create-board.component';
+import { UserprofileComponent } from '../userprofile/userprofile.component';
 
 @Component({
   selector: 'app-home',
@@ -374,5 +375,16 @@ export class HomeComponent implements OnInit {
       this.notification.openSnackBar("Successfully deleted the board !", NotificationType.SUCCESS);
       this.router.navigate(['allboards/']);
     })
+  }
+
+  openProfileDialog(): void {
+    const dialogRef = this.dialog.open(UserprofileComponent, {
+      data: this.userprofile,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)
+      this.userprofile = result;
+    });
   }
 }

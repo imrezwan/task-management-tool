@@ -1,0 +1,38 @@
+<div class="user-profile">
+    <div class="profile-pic">
+        <div *ngIf="data.profile_image">
+            <img src="api/v1/profile/{{data.profile_image}}" class="profile-picture"/>
+        </div>
+        <div *ngIf="!data.profile_image">
+            <p class="gen-profile-pic"
+                [style.background]="profileTextBg"
+            >{{data.username | slice : 0:1 | titlecase}}</p>
+        </div>
+    </div>
+    <input
+        #profileImage type="file"
+        accept="image/*"
+        (change)="uploadProfileImage(profileImage)"
+        style="display:none;">
+    <mat-icon
+        (click)="profileImage.click()">
+        add_a_photo
+    </mat-icon>
+    <input 
+        (click)="onClickName()"
+        (blur)="onBlurNameEdit()"
+        type="text"
+        size="20"
+        [ngClass]="canEditName? '': 'noneditable'"
+        type="text"
+        [(ngModel)]="data.display_name"
+        />
+
+    <hr style="margin: 8px 0px;width: 100%;">
+    <div class="info">
+        <span style="font-weight: bold;">Username </span>
+        <p class="username">: @{{data.username}}</p>
+        <span style="font-weight: bold;">Email </span>
+        <p class="email">: {{data.email}}</p>
+    </div>
+</div>

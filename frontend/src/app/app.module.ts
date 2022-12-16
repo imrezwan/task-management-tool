@@ -27,6 +27,7 @@ import { AllboardComponent } from './components/allboard/allboard.component';
 import { ChangebgDialogComponent } from './components/changebg-dialog/changebg-dialog.component';
 import { ConfirmdialogComponent } from './components/confirmdialog/confirmdialog.component';
 import { CreateBoardComponent } from './components/create-board/create-board.component';
+import { UserprofileComponent } from './components/userprofile/userprofile.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { CreateBoardComponent } from './components/create-board/create-board.com
     ChangebgDialogComponent,
     ConfirmdialogComponent,
     CreateBoardComponent,
+    UserprofileComponent,
   ],
   imports: [
     BrowserModule,

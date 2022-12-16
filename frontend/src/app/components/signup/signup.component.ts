@@ -46,7 +46,7 @@ export class SignUpComponent implements OnInit {
   signUp(): void {
     if (this.signUpForm.value) {
       this.userService.signUp(this.signUpForm.value).subscribe((res) => {
-        this.router.navigate(['home']);
+        this.router.navigate(['allboards']);
       });
     }
   }

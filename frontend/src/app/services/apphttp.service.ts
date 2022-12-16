@@ -45,6 +45,16 @@ export class AppHttpService {
     });
   }
 
+  patchFormData(url: string, body: any, params: any = {}): Observable<any> {
+    return this.http.request('PATCH', config.api.baseUrl + url, {
+      body: body,
+      params: new HttpParams({ fromObject: params }),
+      headers: new HttpHeaders({
+        Authorization: config.api.tokenValue(this.storage.get('token') || ''),
+      }),
+    });
+  }
+
   delete(url: string, params: any = {}): Observable<any> {
     return this.http.request('DELETE', config.api.baseUrl + url, {
       params: new HttpParams({ fromObject: params }),
