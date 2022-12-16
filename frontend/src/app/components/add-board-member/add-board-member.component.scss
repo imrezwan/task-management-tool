@@ -1,0 +1,23 @@
+.container {
+    width: 25vw;
+    display: grid;
+    flex-direction: column;
+
+    h4 {
+        text-align: center;
+    }
+
+    hr {
+        width: 100%;
+    }
+
+    button {
+        margin: 0 auto !important;
+    }
+
+    input[type=email] {
+        width: 100%;
+        margin: 10px;
+        padding: 10px;
+    }
+}

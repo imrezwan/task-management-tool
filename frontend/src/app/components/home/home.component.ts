@@ -15,6 +15,7 @@ import {
 } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
 import { Board, CardItem, ListItem } from 'src/app/tmt.interface';
+import { AddBoardMemberComponent } from '../add-board-member/add-board-member.component';
 import { CardDialogComponent } from '../card-dialog/card-dialog.component';
 import { ChangebgDialogComponent } from '../changebg-dialog/changebg-dialog.component';
 import { ConfirmdialogComponent } from '../confirmdialog/confirmdialog.component';
@@ -92,7 +93,7 @@ export class HomeComponent implements OnInit {
   }
 
   retrieveUserProfile(): void {
-    this.userService.getUserProfile().subscribe((profile:any) => {
+    this.userService.getUserProfile().subscribe((profile: any) => {
       this.userprofile = profile;
       this.profileTextBg = ColorHelper.stringToHexColor(profile.username);
     });
@@ -113,6 +114,17 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe((item) => {
       this.router.navigate(['boards', item.id]);
     });
+  }
+
+  addBoardMember(): void {
+    const dialogRef = this.dialog.open(AddBoardMemberComponent, {
+      data: { board_id : this.boardId }
+    });
+
+    dialogRef.afterClosed().subscribe((item) => {
+      this.router.navigate(['boards', item.id]);
+    });
+
   }
 
   toggleCardButtonVisibility(idx: number) {
@@ -196,8 +208,7 @@ export class HomeComponent implements OnInit {
         if (curIdx === allDroppedListCardItems.length) {
           // last insert
           allDraggedListCardItems[prevIdx].order =
-            4096 +
-            allDraggedListCardItems[prevIdx].order;
+            4096 + allDraggedListCardItems[prevIdx].order;
         } else if (curIdx === 0) {
           // first insert
           allDraggedListCardItems[prevIdx].order =
@@ -386,10 +397,13 @@ export class HomeComponent implements OnInit {
   }
 
   deleteBoard(): void {
-    this.http.delete(`board/${this.boardId}/`).subscribe(res => {
-      this.notification.openSnackBar("Successfully deleted the board !", NotificationType.SUCCESS);
+    this.http.delete(`board/${this.boardId}/`).subscribe((res) => {
+      this.notification.openSnackBar(
+        'Successfully deleted the board !',
+        NotificationType.SUCCESS
+      );
       this.router.navigate(['allboards/']);
-    })
+    });
   }
 
   openProfileDialog(): void {

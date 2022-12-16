@@ -1,0 +1,17 @@
+<div class="container">
+    <h4>Add Board Member</h4>
+    <hr>
+    <input
+        type="email"
+        name="email"
+        [formControl]="emailFormControl"
+        placeholder="enter member's email"
+        autocomplete="on">
+    <button
+        [disabled]="!emailFormControl.valid"
+        (click)="addNewBoardMember()"
+        mat-raised-button 
+        color="primary">
+        Add
+    </button>
+</div>

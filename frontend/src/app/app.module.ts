@@ -28,6 +28,7 @@ import { ChangebgDialogComponent } from './components/changebg-dialog/changebg-d
 import { ConfirmdialogComponent } from './components/confirmdialog/confirmdialog.component';
 import { CreateBoardComponent } from './components/create-board/create-board.component';
 import { UserprofileComponent } from './components/userprofile/userprofile.component';
+import { AddBoardMemberComponent } from './components/add-board-member/add-board-member.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { UserprofileComponent } from './components/userprofile/userprofile.compo
     ConfirmdialogComponent,
     CreateBoardComponent,
     UserprofileComponent,
+    AddBoardMemberComponent,
   ],
   imports: [
     BrowserModule,
