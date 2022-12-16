@@ -145,6 +145,9 @@ class AddNewBoardMember(generics.CreateAPIView):
         board = Board.objects.get(id=boardId)
         member = UserProfile.objects.get(user__email = email)
 
+        if board.owner != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
         if not BoardPermission.objects.filter(board = board, member = member).exists():
             object = BoardPermission.objects.create(board = board, member = member)
             serializer = BoardMemberPerformSerializer(object)
