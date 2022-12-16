@@ -1,7 +1,7 @@
 # Task Management Tool - TMT
 <b>Task Management Tool - TMT </b> is a basic task tracker application inspired from "<b>Trello Board</b>".
 
-# <h3> 📌 Features</h3>
+# <h2> 📌 Features</h2>
  - [x] Authorization
  - [x] Authentication ( Registration and Login )
  - [x] Create/update/delete new board
@@ -18,7 +18,7 @@
  - [ ] Add label in a card
  - [ ] Move list
  
-# <h3> 📌 Tech Stack</h3>
+# <h2> 📌 Tech Stack</h2>
 
 ![HTML](https://img.shields.io/badge/html5%20-%23E34F26.svg?&style=for-the-badge&logo=html5&logoColor=white)
 ![SCSS](https://img.shields.io/badge/SCSS%20-%231572B6.svg?&style=for-the-badge&logo=sass&logoColor=white)
@@ -28,7 +28,7 @@
 <img alt="ReactJs" src="https://img.shields.io/badge/python-AA2A2C.svg?style=for-the-badge&logo=python&logoColor=F7CB3F"/>
 <img alt="ReactJs" src="https://img.shields.io/badge/django-green.svg?style=for-the-badge&logo=django&logoColor=61DBFB"/>
 
-# <h3> 📌 Getting Started</h3>
+# <h2> 📌 Getting Started</h2>
 1. Install [Python](https://www.python.org/downloads/), [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 2. Clone the repo
 ```
@@ -52,10 +52,10 @@ $ yarn install
 $ python manage.py runserver
 $ yarn start
 ```
-# <h3> 📌 API Documentations</h3>
+# <h2> 📌 API Documentations</h2>
 After running the backend server, the API doc will be at `http://localhost:8000/docs/`
 
-# <h3> 📌 Screenshots</h3>
+# <h2> 📌 Screenshots</h2>
 ### **1. All boards**
 ----------------------
 <img src="https://github.com/rezwan2525/task-management-tool/blob/main/screenshots/all_boards_page.jpg">
@@ -82,7 +82,7 @@ After running the backend server, the API doc will be at `http://localhost:8000/
 
 #
 
-<h1 align=center> OUR VALUABLE CONTRIBUTORS✨ </h1>
+<h3 align=center> OUR VALUABLE CONTRIBUTORS✨ </h3>
 <p align="center">
   
 	
