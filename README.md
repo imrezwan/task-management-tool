@@ -55,6 +55,9 @@ $ yarn start
 # <h2> 📌 API Documentations</h2>
 After running the backend server, the API doc will be at `http://localhost:8000/docs/`
 
+# <h2> 📌 Project Showcase Video</h2>
+[![Task Management Tool - TMT DEMO VIDEO](https://user-images.githubusercontent.com/30120066/208237058-45e0723b-074a-4130-a33f-87eb5e31cf7f.jpg)](https://www.youtube.com/watch?v=gKZRjWhq6eA "Task Management Tool - TMT DEMO VIDEO")
+
 # <h2> 📌 Screenshots</h2>
 ### **1. All boards**
 ----------------------
