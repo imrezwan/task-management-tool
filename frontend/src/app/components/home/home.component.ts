@@ -291,6 +291,7 @@ export class HomeComponent implements OnInit {
       })
       .subscribe((newList) => {
         this.boardData.listitems.push(newList);
+        this.canEditListTitle.push(false);
       });
 
     this.listValue = '';
