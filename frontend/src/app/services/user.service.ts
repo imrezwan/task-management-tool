@@ -34,7 +34,12 @@ export class UserService {
   }
 
   getUserProfile() {
-    return this.http.get(`profile/`);
+    return this.http.get(`profile/`).pipe(
+      tap((res: any) => {
+        this._user = res;
+        this.user$.next(res);
+      })
+    );
   }
 
   login(user: LoginUser) {
